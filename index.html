@@ -1,48 +1,48 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>mashgtの工具箱</title>
   <script src="js/sample_javascript.js"></script>
 </head>
 
 <body>
   <h1>自己紹介</h1>
-  <p>エンジニアやってます．Webアプリ開発と数値解析の経験が多めです．</p>
+  <p>エンジニアやってます．アプリ開発や数値解析がメインです。</p>
+  
   <h1>サイトの目的</h1>
   <p>
     サイト構築と実装の練習がてら、いろんなスタイルで作成したWebアプリをリンクします．
   </p>
 
-  <h1>リンク</h1>
+  <h1>SandBox</h1>
 
-  <!-- test with javascript -->
+  <!-- シンプルなJS関数実行 -->
   <p>シンプルなjs関数実行。</p>
   <input id="button1" type="button" value="js_test" onclick="alertButton()" />
 
-  <!-- 改行したい -->
   <br />
 
-  <!--  -->
-  <p>react.js, typescript, next.jsで作ったサイト</p>
+  <!-- React, TypeScript, Next.jsで作ったサイト -->
+  <p>React.js, TypeScript, Next.jsで作ったサイト</p>
   <input id="button2" type="button" value="react_ts_practice"
-    onclick="window.open('https://mash3-gt.github.io/react_ts_practice/','_blank')" />
+    onclick="window.open('https://sample.com/react_ts_practice/', '_blank')" />
 
-  <!-- https://mash3-gt.github.io/next-my-appsへのリンクボタン  -->
+  <!-- Next.jsで実装されたページ -->
   <p>モダンなページへのリンク。リンク先はNext.jsで実装。</p>
-  <input id="button2" type="button" value="next-my-apps"
-    onclick="window.open('https://mash3-gt.github.io/next-my-apps', '_blank')" />
+  <input id="button3" type="button" value="next-my-apps"
+    onclick="window.open('https://sample.com/next-my-apps', '_blank')" />
 
-  <!--  -->
-  <h1>その他サイト</h1>
-  <p>youtube(個人)</p>
-  <p>youtube(band)</p>
-  <p>X</p>
-  <p>atcoder</p>
-  <p>signate</p>
-  <p>kaggle</p>
-  <p>paiza</p>
+  <h1>リンク</h1>
+  <ul>
+    <li><a href="https://www.youtube.com/@mashguitar250" target="_blank">YouTube (個人)</a></li>
+    <li><a href="https://www.youtube.com/@atbreakofdaykyoto" target="_blank">YouTube (バンド)</a></li>
+    <li><a href="https://x.com/shiroi_guitar" target="_blank">X</a></li>
+    <li><a href="https://atcoder.jp/users/ryu_boku" target="_blank">AtCoder</a></li>
+    <li><a href="https://signate.jp/users/145984" target="_blank">Signate</a></li>
+  </ul>
 </body>
 
 </html>
