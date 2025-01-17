@@ -11,7 +11,7 @@
 <body>
   <h1>自己紹介</h1>
   <p>エンジニアやってます．アプリ開発や数値解析がメインです。</p>
-  
+
   <h1>サイトの目的</h1>
   <p>
     サイト構築と実装の練習がてら、いろんなスタイルで作成したWebアプリをリンクします．
@@ -22,6 +22,27 @@
   <!-- シンプルなJS関数実行 -->
   <p>シンプルなjs関数実行。</p>
   <input id="button1" type="button" value="js_test" onclick="alertButton()" />
+
+  <!-- おみくじ -->
+  <h2>おみくじ</h2>
+  <p>ボタンを押しておみくじを引いてください！</p>
+  <button onclick="drawOmikuji()">おみくじを引く</button>
+  <div id="omikujiResult"></div>
+
+  <script>
+    function drawOmikuji() {
+      const results = [
+        { result: "大吉", image: "images/daikichi.png" },
+        { result: "中吉", image: "images/chukichi.png" },
+        { result: "小吉", image: "images/shokichi.png" }
+      ];
+
+      const randomResult = results[Math.floor(Math.random() * results.length)];
+      const resultElement = document.getElementById("omikujiResult");
+      resultElement.innerHTML = `<p>あなたのおみくじ結果: ${randomResult.result}</p>
+                                 <img src="${randomResult.image}" alt="${randomResult.result}" style="width: 200px; height: auto;" />`;
+    }
+  </script>
 
   <br />
 
