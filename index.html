@@ -2,7 +2,7 @@
 <html lang="ja">
 
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>mashgtの工具箱</title>
   <script src="js/sample_javascript.js"></script>
@@ -256,6 +256,38 @@
         grid-template-columns: 1fr;
       }
     }
+
+    .profile-row {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .profile-icon-wrap {
+      flex-shrink: 0;
+    }
+
+    .profile-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      border: 3px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .sandbox-item {
+      margin-bottom: 30px;
+    }
+
+    .sandbox-item-top-lg {
+      margin-top: 30px;
+    }
+
+    .sandbox-item-top-sm {
+      margin-top: 20px;
+    }
   </style>
 </head>
 
@@ -268,10 +300,10 @@
     </div>
 
     <div class="card">
-      <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 20px;">
-        <div style="flex-shrink: 0;">
+      <div class="profile-row">
+        <div class="profile-icon-wrap">
           <img src="images/guitar-icon.jpg" alt="エレキギター"
-            style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; box-shadow: 0 8px 16px rgba(0,0,0,0.2); border: 3px solid rgba(255,255,255,0.3);">
+            class="profile-icon">
         </div>
         <div>
           <h1>Profile</h1>
@@ -282,28 +314,28 @@
     <div class="card">
       <h1>SandBox</h1>
 
-      <div style="margin-bottom: 30px;">
+      <div class="sandbox-item">
         <p>シンプルなjs関数実行。</p>
-        <button class="button" onclick="alertButton()">js_test</button>
+        <button type="button" class="button" onclick="alertButton()">js_test</button>
       </div>
 
       <div class="omikuji-section">
         <h2>おみくじ</h2>
         <p>ボタンを押しておみくじを引いてください！</p>
-        <button class="button" onclick="drawOmikuji()">おみくじを引く</button>
+        <button type="button" class="button" onclick="drawOmikuji()">おみくじを引く</button>
         <div id="omikujiResult" class="omikuji-result"></div>
       </div>
 
-      <div style="margin-top: 30px;">
+      <div class="sandbox-item-top-lg">
         <p>React.js, TypeScript, Next.jsで作ったサイト</p>
-        <button class="button" onclick="window.open('https://sample.com/react_ts_practice/', '_blank')">
+        <button type="button" class="button" onclick="window.open('https://sample.com/react_ts_practice/', '_blank')">
           react_ts_practice
         </button>
       </div>
 
-      <div style="margin-top: 20px;">
+      <div class="sandbox-item-top-sm">
         <p>モダンなページへのリンク。リンク先はNext.jsで実装。</p>
-        <button class="button" onclick="window.open('https://sample.com/next-my-apps', '_blank')">
+        <button type="button" class="button" onclick="window.open('https://sample.com/next-my-apps', '_blank')">
           next-my-apps
         </button>
       </div>
