@@ -316,6 +316,99 @@
       color: #666;
       margin-top: 4px;
     }
+
+    .card.card-secondary {
+      background: rgba(255, 255, 255, 0.75);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    .card.card-secondary h2 {
+      font-size: 1.2rem;
+      color: #555;
+      margin-bottom: 14px;
+    }
+
+    .card.card-secondary h2::after {
+      display: none;
+    }
+
+    .links-grid-compact {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .link-card-compact {
+      background: rgba(102, 126, 234, 0.08);
+      border: 1px solid rgba(102, 126, 234, 0.25);
+      color: #556;
+      padding: 8px 18px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+
+    .link-card-compact:hover {
+      background: rgba(102, 126, 234, 0.18);
+      color: #333;
+    }
+
+    .works-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .works-view-all {
+      font-size: 0.9rem;
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .works-view-all:hover {
+      text-decoration: underline;
+    }
+
+    .works-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .work-card {
+      background: linear-gradient(135deg, #f8f9ff, #f3f0ff);
+      border: 1px solid rgba(102, 126, 234, 0.2);
+      border-radius: 14px;
+      padding: 18px 20px;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .work-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 28px rgba(102, 126, 234, 0.18);
+      border-color: rgba(102, 126, 234, 0.45);
+    }
+
+    .work-card-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #2c3e50;
+    }
+
+    .work-card-desc {
+      font-size: 0.85rem;
+      color: #666;
+      line-height: 1.4;
+    }
   </style>
 </head>
 
@@ -368,42 +461,51 @@
       </div>
     </div>
     <div class="card">
-      <h1>Hub</h1>
-      <p>This is the main hub for my writing, content, and competitive programming profiles.</p>
-      <div class="links-grid">
-        <a href="https://note.com/mash3gt" target="_blank" rel="noopener noreferrer" class="link-card">
-          note
+      <div class="works-header">
+        <h2>Works</h2>
+        <a href="https://nextjs-web-apps-stock.vercel.app/" target="_blank" rel="noopener noreferrer" class="works-view-all">View all →</a>
+      </div>
+      <div class="works-grid">
+        <a href="https://nextjs-web-apps-stock.vercel.app/earthObservation" target="_blank" rel="noopener noreferrer" class="work-card">
+          <div class="work-card-title">Earth Observation</div>
+          <div class="work-card-desc">3D Earth visualization with Three.js</div>
         </a>
-        <a href="https://www.youtube.com/@mash3gt" target="_blank" rel="noopener noreferrer" class="link-card">
-          YouTube
+        <a href="https://nextjs-web-apps-stock.vercel.app/flowAnimation" target="_blank" rel="noopener noreferrer" class="work-card">
+          <div class="work-card-title">Flow Animation</div>
+          <div class="work-card-desc">Fluid simulation based on Euler equations</div>
         </a>
-        <a href="https://x.com/mash3gt" target="_blank" rel="noopener noreferrer" class="link-card">
-          X
+        <a href="https://nextjs-web-apps-stock.vercel.app/thermalApp" target="_blank" rel="noopener noreferrer" class="work-card">
+          <div class="work-card-title">Thermodynamics App</div>
+          <div class="work-card-desc">3D adiabatic process simulation</div>
         </a>
-        <a href="https://www.instagram.com/mash3gt/" target="_blank" rel="noopener noreferrer" class="link-card">
-          Instagram
+        <a href="https://nextjs-web-apps-stock.vercel.app/stratcasterApp" target="_blank" rel="noopener noreferrer" class="work-card">
+          <div class="work-card-title">Stratcaster App</div>
+          <div class="work-card-desc">2D Stratocaster physics analysis</div>
+        </a>
+        <a href="https://nextjs-web-apps-stock.vercel.app/sokudokuApp" target="_blank" rel="noopener noreferrer" class="work-card">
+          <div class="work-card-title">Speed Reading App</div>
+          <div class="work-card-desc">RSVP speed reading trainer</div>
         </a>
       </div>
+    </div>
 
-      <div class="hub-subsection">
-        <h2>Competitive Programming</h2>
-        <div class="links-grid">
-          <a href="https://atcoder.jp/users/ryu_boku" target="_blank" rel="noopener noreferrer" class="link-card">
-            AtCoder
-          </a>
-          <a href="https://www.kaggle.com/shiroguitar" target="_blank" rel="noopener noreferrer" class="link-card">
-            Kaggle
-          </a>
-          <a href="https://user.competition.signate.jp/ja/account?tab=public" target="_blank" rel="noopener noreferrer" class="link-card">
-            Signate
-          </a>
-        </div>
+    <div class="card card-secondary">
+      <h2>Technical</h2>
+      <div class="links-grid-compact">
+        <a href="https://github.com/mash3gt" target="_blank" rel="noopener noreferrer" class="link-card-compact">GitHub</a>
+        <a href="https://atcoder.jp/users/ryu_boku" target="_blank" rel="noopener noreferrer" class="link-card-compact">AtCoder</a>
+        <a href="https://www.kaggle.com/shiroguitar" target="_blank" rel="noopener noreferrer" class="link-card-compact">Kaggle</a>
+        <a href="https://user.competition.signate.jp/ja/account?tab=public" target="_blank" rel="noopener noreferrer" class="link-card-compact">Signate</a>
       </div>
+    </div>
 
-      <div class="hub-subsection">
-        <h2>Coming Soon</h2>
-        <p class="status-text">My AWS-based personal development page is currently in progress.</p>
-        <p class="hub-note">The latest product will be added here after launch.</p>
+    <div class="card card-secondary">
+      <h2>Content</h2>
+      <div class="links-grid-compact">
+        <a href="https://note.com/mash3gt" target="_blank" rel="noopener noreferrer" class="link-card-compact">note</a>
+        <a href="https://www.youtube.com/@mash3gt" target="_blank" rel="noopener noreferrer" class="link-card-compact">YouTube</a>
+        <a href="https://x.com/mash3gt" target="_blank" rel="noopener noreferrer" class="link-card-compact">X</a>
+        <a href="https://www.instagram.com/mash3gt/" target="_blank" rel="noopener noreferrer" class="link-card-compact">Instagram</a>
       </div>
     </div>
   </div>
