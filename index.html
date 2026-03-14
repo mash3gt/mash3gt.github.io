@@ -4,8 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>mashgtの工具箱</title>
-  <script src="js/sample_javascript.js"></script>
+  <title>mash3gt | Portfolio Hub</title>
   <style>
     * {
       margin: 0;
@@ -133,43 +132,6 @@
       background: linear-gradient(45deg, #764ba2, #667eea);
     }
 
-    .omikuji-section {
-      text-align: center;
-      padding: 20px;
-    }
-
-    .omikuji-result {
-      margin-top: 20px;
-      padding: 20px;
-      border-radius: 15px;
-      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-      color: white;
-      display: none;
-      animation: fadeIn 0.5s ease-in;
-    }
-
-    .omikuji-result.show {
-      display: block;
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .omikuji-result img {
-      border-radius: 10px;
-      margin-top: 15px;
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    }
-
     .links-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -277,16 +239,21 @@
       border: 3px solid rgba(255, 255, 255, 0.3);
     }
 
-    .sandbox-item {
-      margin-bottom: 30px;
-    }
-
-    .sandbox-item-top-lg {
-      margin-top: 30px;
-    }
-
-    .sandbox-item-top-sm {
+    .hub-subsection {
       margin-top: 20px;
+    }
+
+    .status-text {
+      font-size: 0.95rem;
+      color: #666;
+      margin-top: -8px;
+      margin-bottom: 16px;
+    }
+
+    .hub-note {
+      font-size: 0.95rem;
+      color: #666;
+      margin-top: 16px;
     }
   </style>
 </head>
@@ -296,7 +263,7 @@
 
   <div class="container">
     <div class="header">
-      <h1>mashgt's output</h1>
+      <h1>mash3gt Portfolio Hub</h1>
     </div>
 
     <div class="card">
@@ -312,74 +279,47 @@
       </div>
     </div>
     <div class="card">
-      <h1>SandBox</h1>
-
-      <div class="sandbox-item">
-        <p>シンプルなjs関数実行。</p>
-        <button type="button" class="button" onclick="alertButton()">js_test</button>
-      </div>
-
-      <div class="omikuji-section">
-        <h2>おみくじ</h2>
-        <p>ボタンを押しておみくじを引いてください！</p>
-        <button type="button" class="button" onclick="drawOmikuji()">おみくじを引く</button>
-        <div id="omikujiResult" class="omikuji-result"></div>
-      </div>
-
-      <div class="sandbox-item-top-lg">
-        <p>React.js, TypeScript, Next.jsで作ったサイト</p>
-        <button type="button" class="button" onclick="window.open('https://sample.com/react_ts_practice/', '_blank')">
-          react_ts_practice
-        </button>
-      </div>
-
-      <div class="sandbox-item-top-sm">
-        <p>モダンなページへのリンク。リンク先はNext.jsで実装。</p>
-        <button type="button" class="button" onclick="window.open('https://sample.com/next-my-apps', '_blank')">
-          next-my-apps
-        </button>
-      </div>
-    </div>
-
-    <div class="card">
-      <h1>リンク</h1>
+      <h1>Hub</h1>
+      <p>活動先への入口です。記事・発信・競技実績をここに集約しています。</p>
       <div class="links-grid">
-        <a href="https://www.youtube.com/@mash3gt" target="_blank" class="link-card">
+        <a href="https://note.com/mash3gt" target="_blank" rel="noopener noreferrer" class="link-card">
+          note
+        </a>
+        <a href="https://www.youtube.com/@mash3gt" target="_blank" rel="noopener noreferrer" class="link-card">
           YouTube
         </a>
-        <a href="https://www.instagram.com/mash3gt/" target="_blank" class="link-card">
-          Instagram
-        </a>
-        <a href="https://x.com/mash3gt" target="_blank" class="link-card">
+        <a href="https://x.com/mash3gt" target="_blank" rel="noopener noreferrer" class="link-card">
           X
         </a>
-        <a href="https://atcoder.jp/users/ryu_boku" target="_blank" class="link-card">
-          AtCoder
+        <a href="https://www.instagram.com/mash3gt/" target="_blank" rel="noopener noreferrer" class="link-card">
+          Instagram
         </a>
-        <a href="https://user.competition.signate.jp/ja/account?tab=public" target="_blank" class="link-card">
-          Signate
-        </a>
+      </div>
+
+      <div class="hub-subsection">
+        <h2>Competitive Programming</h2>
+        <div class="links-grid">
+          <a href="https://atcoder.jp/users/ryu_boku" target="_blank" rel="noopener noreferrer" class="link-card">
+            AtCoder
+          </a>
+          <a href="https://www.kaggle.com/shiroguitar" target="_blank" rel="noopener noreferrer" class="link-card">
+            Kaggle
+          </a>
+          <a href="https://user.competition.signate.jp/ja/account?tab=public" target="_blank" rel="noopener noreferrer" class="link-card">
+            Signate
+          </a>
+        </div>
+      </div>
+
+      <div class="hub-subsection">
+        <h2>Coming Soon</h2>
+        <p class="status-text">AWS 側の個人開発ページは準備中です。</p>
+        <p class="hub-note">公開後はここに最新プロダクトを追加します。</p>
       </div>
     </div>
   </div>
 
   <script>
-    function drawOmikuji() {
-      const results = [
-        { result: "大吉", image: "images/daikichi.png" },
-        { result: "中吉", image: "images/chukichi.png" },
-        { result: "小吉", image: "images/shokichi.png" }
-      ];
-
-      const randomResult = results[Math.floor(Math.random() * results.length)];
-      const resultElement = document.getElementById("omikujiResult");
-      resultElement.innerHTML = `
-        <h3>🎊 あなたのおみくじ結果: ${randomResult.result} 🎊</h3>
-        <img src="${randomResult.image}" alt="${randomResult.result}" style="width: 200px; height: auto;" />
-      `;
-      resultElement.classList.add('show');
-    }
-
     // 浮遊パーティクルの生成
     function createParticles() {
       const particlesContainer = document.getElementById('particles');
