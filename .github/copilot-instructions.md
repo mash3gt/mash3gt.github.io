@@ -24,3 +24,4 @@
 
 - Run verification after implementation is complete.
 - For web apps, also perform deployment and UI checks.
+- Update TODO.md if any planned items were completed.
