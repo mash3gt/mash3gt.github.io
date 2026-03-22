@@ -170,7 +170,7 @@ const opp = [0, 3, 4, 1, 2, 7, 8, 5, 6];
 let NX, NY;
 let f, fTemp, rho, ux, uy, obstacle;
 let imgData;
-const simScale = 3;
+const simScale = 2;
 
 function initSim() {
   const frame = document.querySelector('.artwork-frame');
@@ -290,9 +290,15 @@ function collideAndStream() {
     for (let y = 0; y < NY; y++) {
       for (let x = 0; x < NX; x++) {
         const nx = x - cxArr[i];
-        const ny = y - cyArr[i];
-        if (nx >= 0 && nx < NX && ny >= 0 && ny < NY) {
+        const ny = ((y - cyArr[i]) % NY + NY) % NY;
+        if (nx >= 0 && nx < NX) {
           fTemp[i * size + y * NX + x] = f[i * size + ny * NX + nx];
+        } else if (nx < 0) {
+          // Left: will be overwritten by inlet BC
+          fTemp[i * size + y * NX + x] = f[i * size + y * NX + x];
+        } else {
+          // Right: extrapolate from neighbor
+          fTemp[i * size + y * NX + x] = f[i * size + ny * NX + (NX - 1)];
         }
       }
     }
@@ -360,7 +366,7 @@ function render() {
 
       let val = 0;
       if (vizMode === 'velocity') {
-        val = Math.sqrt(ux[idx]*ux[idx] + uy[idx]*uy[idx]) / (U0 * 2.5);
+        val = Math.sqrt(ux[idx]*ux[idx] + uy[idx]*uy[idx]) / (U0 * 1.5);
       } else if (vizMode === 'vorticity') {
         if (x > 0 && x < NX-1 && y > 0 && y < NY-1) {
           const vort = (uy[idx+1]-uy[idx-1])*0.5 - (ux[(y+1)*NX+x]-ux[(y-1)*NX+x])*0.5;
@@ -420,10 +426,23 @@ function step() {
   requestAnimationFrame(step);
 }
 
+function warmUp(remaining) {
+  const batch = 50;
+  const count = Math.min(batch, remaining);
+  for (let i = 0; i < count; i++) collideAndStream();
+  remaining -= count;
+  if (remaining > 0) {
+    setTimeout(() => warmUp(remaining), 0);
+  } else {
+    render();
+    document.getElementById('loading').classList.add('fade-out');
+    step();
+  }
+}
+
 function start() {
   initSim();
-  setTimeout(() => document.getElementById('loading').classList.add('fade-out'), 600);
-  step();
+  warmUp(400);
 }
 
 window.addEventListener('resize', initSim);
