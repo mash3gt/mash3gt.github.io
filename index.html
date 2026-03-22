@@ -37,17 +37,24 @@
   .nav-link{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.4);text-decoration:none;transition:color 0.2s;}
   .nav-link:hover{color:#fff;}
 
-  /* Bottom controls — compact single bar */
-  .controls{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:100;display:flex;align-items:center;gap:16px;background:rgba(6,10,18,0.85);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.06);border-radius:28px;padding:8px 24px;}
-  .ctrl-group{display:flex;align-items:center;gap:8px;}
-  .ctrl-label{font-size:9px;letter-spacing:1px;color:rgba(255,255,255,0.35);white-space:nowrap;}
-  .ctrl-val{font-family:'Orbitron',sans-serif;font-size:10px;color:#4ecdc4;min-width:36px;}
+  /* Caption — left bottom, museum plate style */
+  .caption{position:fixed;bottom:28px;left:28px;z-index:100;max-width:360px;}
+  .caption-title{font-family:'Orbitron',sans-serif;font-size:14px;font-weight:700;color:#fff;letter-spacing:1px;margin-bottom:8px;}
+  .caption-technique{font-size:10px;letter-spacing:1px;color:rgba(255,255,255,0.3);margin-bottom:10px;}
+  .caption-statement{font-size:11px;font-style:italic;color:rgba(255,255,255,0.4);line-height:1.7;margin-bottom:6px;}
+  .caption-statement-ja{font-size:11px;font-style:italic;color:rgba(255,255,255,0.35);line-height:1.8;}
+
+  /* Controls — right bottom */
+  .controls{position:fixed;bottom:28px;right:28px;z-index:100;display:flex;flex-direction:column;gap:8px;align-items:flex-end;}
+  .ctrl-row{display:flex;align-items:center;gap:8px;}
+  .ctrl-label{font-size:9px;letter-spacing:1px;color:rgba(255,255,255,0.3);white-space:nowrap;}
+  .ctrl-val{font-family:'Orbitron',sans-serif;font-size:10px;color:#4ecdc4;min-width:36px;text-align:right;}
   input[type="range"]{width:80px;accent-color:#4ecdc4;height:2px;-webkit-appearance:none;appearance:none;background:rgba(255,255,255,0.1);border-radius:1px;outline:none;}
   input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:10px;height:10px;border-radius:50%;background:#4ecdc4;cursor:pointer;}
-  .sep{width:1px;height:16px;background:rgba(255,255,255,0.08);}
-  .viz-btn{padding:4px 10px;font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.3);background:none;border:1px solid rgba(255,255,255,0.08);border-radius:12px;cursor:pointer;transition:all 0.2s;}
-  .viz-btn:hover{color:rgba(255,255,255,0.6);}
-  .viz-btn.active{color:#4ecdc4;border-color:rgba(78,205,196,0.3);}
+  .viz-modes{display:flex;gap:4px;}
+  .viz-btn{padding:3px 10px;font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.25);background:none;border:1px solid rgba(255,255,255,0.06);border-radius:10px;cursor:pointer;transition:all 0.2s;}
+  .viz-btn:hover{color:rgba(255,255,255,0.5);}
+  .viz-btn.active{color:#4ecdc4;border-color:rgba(78,205,196,0.25);}
 
   /* Loading */
   .loading-screen{position:fixed;inset:0;background:#06080f;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.8s ease;}
@@ -58,8 +65,11 @@
 
   /* Mobile */
   @media(max-width:700px){
-    .controls{flex-wrap:wrap;gap:10px;padding:8px 16px;border-radius:16px;bottom:12px;max-width:calc(100vw - 24px);}
-    .ctrl-group input[type="range"]{width:60px;}
+    .caption{bottom:16px;left:16px;max-width:55vw;}
+    .caption-title{font-size:12px;}
+    .caption-statement,.caption-statement-ja{font-size:10px;}
+    .controls{bottom:16px;right:16px;}
+    .ctrl-row input[type="range"]{width:60px;}
     .nav{padding:0 14px;}
     .logo-text{font-size:12px;letter-spacing:2px;}
     .nav-link{font-size:9px;}
@@ -82,25 +92,31 @@
   <a href="about.html" class="nav-link">About</a>
 </div>
 
+<!-- Caption — museum plate, bilingual -->
+<div class="caption">
+  <div class="caption-title">Flow around a Guitar</div>
+  <div class="caption-technique">Lattice Boltzmann Method (D2Q9) / JavaScript</div>
+  <div class="caption-statement">Two things I was obsessed with in school — guitars and fluid dynamics.<br>Maybe this is what the inside of my head looked like.</div>
+  <div class="caption-statement-ja">学生時代に熱中した２つのこと — ギターと数値流体力学。<br>当時の脳内は、こんな感じだったのかもしれない。</div>
+</div>
+
+<!-- Controls — right side -->
 <div class="controls">
-  <div class="ctrl-group">
+  <div class="ctrl-row">
     <span class="ctrl-label">Velocity</span>
     <input type="range" id="velocity-slider" min="0.02" max="0.15" step="0.005" value="0.10">
     <span class="ctrl-val" id="velocity-display">0.10</span>
   </div>
-  <div class="sep"></div>
-  <div class="ctrl-group">
+  <div class="ctrl-row">
     <span class="ctrl-label">Viscosity</span>
     <input type="range" id="viscosity-slider" min="0.005" max="0.05" step="0.001" value="0.02">
     <span class="ctrl-val" id="viscosity-display">0.020</span>
   </div>
-  <div class="sep"></div>
-  <div class="ctrl-group">
+  <div class="ctrl-row">
     <span class="ctrl-label">Re</span>
     <span class="ctrl-val" id="re-display">—</span>
   </div>
-  <div class="sep"></div>
-  <div class="ctrl-group">
+  <div class="viz-modes">
     <button class="viz-btn active" data-mode="velocity">Speed</button>
     <button class="viz-btn" data-mode="vorticity">Vorticity</button>
     <button class="viz-btn" data-mode="pressure">Pressure</button>
