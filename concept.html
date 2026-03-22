@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Concept — mash3gt</title>
+<meta name="description" content="Site concept — mash3gt">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Orbitron:wght@400;700&family=Outfit:wght@300;400;600&family=Noto+Sans+JP:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:#06080f;color:#c8cdd8;font-family:'Outfit','Noto Sans JP',sans-serif;font-weight:300;line-height:1.7;min-height:100vh;}
+
+  .nav{position:fixed;top:0;left:0;right:0;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;z-index:100;background:rgba(6,8,15,0.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.04);}
+  .logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+  .logo-text{font-family:'Orbitron',sans-serif;font-weight:700;font-size:14px;letter-spacing:3px;color:#fff;}
+  .logo-text span{color:#4ecdc4;}
+  .nav-links{display:flex;align-items:center;gap:12px;}
+  .nav-link{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.45);text-decoration:none;padding:4px 8px;border:1px solid rgba(255,255,255,0.08);border-radius:4px;transition:all 0.2s;}
+  .nav-link:hover{color:#4ecdc4;border-color:rgba(78,205,196,0.3);}
+  .nav-link.active{color:#4ecdc4;border-color:rgba(78,205,196,0.25);}
+
+  .page{padding:100px 28px 80px;max-width:720px;margin:0 auto;}
+  .page h1{font-family:'Orbitron',sans-serif;font-size:22px;font-weight:700;color:#fff;letter-spacing:2px;margin-bottom:40px;}
+  .page p{font-size:15px;color:rgba(255,255,255,0.55);line-height:2.0;margin-bottom:28px;}
+  .page p:last-child{margin-bottom:0;}
+  .page p.closing{color:rgba(255,255,255,0.7);font-weight:400;}
+
+  .footer{text-align:center;padding:24px;font-size:9px;color:rgba(255,255,255,0.2);letter-spacing:1px;border-top:1px solid rgba(255,255,255,0.04);}
+  .footer a{color:#4ecdc4;text-decoration:none;}
+  .footer a:hover{text-decoration:underline;}
+
+  @media(max-width:600px){
+    .nav{padding:0 12px;height:44px;}
+    .nav-link{font-size:7px;padding:3px 5px;letter-spacing:1px;}
+    .page{padding:76px 16px 60px;}
+    .page h1{font-size:18px;margin-bottom:28px;}
+    .page p{font-size:14px;line-height:1.9;margin-bottom:22px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <a href="index.html" class="logo">
+    <div class="logo-text">MASH3<span>GT</span></div>
+  </a>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">Simulator</a>
+    <a href="concept.html" class="nav-link active">Concept</a>
+    <a href="about.html" class="nav-link">About</a>
+  </div>
+</div>
+
+<div class="page">
+  <h1>CONCEPT</h1>
+
+  <p>美術館という場が好きである。いろんな人が自分が美しいと思ったもの、面白いと思ったものを様々な方法で表現している。</p>
+
+  <p>私が学んできた物理工学もアートになるのか、実験してみたくなった。発信すると自分の理解も深まるので、いいことづくめではないか。このサイトでは私が学んだことを作品形式で形にしていく。作品とその技法（先人の知見）を楽しんでもらえると本望である。</p>
+</div>
+
+<footer class="footer">
+  Contact → <a href="https://x.com/mash3gt" target="_blank" rel="noopener noreferrer">X @mash3gt</a>
+</footer>
+
+</body>
+</html>
