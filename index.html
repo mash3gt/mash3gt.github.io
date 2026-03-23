@@ -115,7 +115,7 @@
 
   <div class="artwork-info">
     <div class="caption">
-      <div class="caption-title">Flow around a Guitar</div>
+      <div class="caption-title">001 — Flow around a Guitar</div>
       <div class="caption-technique">Lattice Boltzmann Method / JavaScript + Canvas</div>
       <div class="caption-statement">Two things I was obsessed with in school — guitars and fluid dynamics.<br>Maybe this is what the inside of my head looked like.</div>
       <div class="caption-statement-ja">学生時代に熱中した２つのこと — ギターと数値流体力学。<br>当時の脳内は、こんな感じだったのかもしれない。</div>
@@ -137,8 +137,8 @@
         <span class="ctrl-val" id="re-display">—</span>
       </div>
       <div class="viz-modes">
-        <button class="viz-btn active" data-mode="velocity">Speed</button>
-        <button class="viz-btn" data-mode="vorticity">Vorticity</button>
+        <button class="viz-btn" data-mode="velocity">Speed</button>
+        <button class="viz-btn active" data-mode="vorticity">Vorticity</button>
         <button class="viz-btn" data-mode="pressure">Pressure</button>
       </div>
     </div>
@@ -159,7 +159,7 @@ const ctx = canvas.getContext('2d');
 
 let U0 = 0.10;
 let nu = 0.02;
-let vizMode = 'velocity';
+let vizMode = 'vorticity';
 
 const Q = 9;
 const cxArr = [0, 1, 0, -1, 0, 1, -1, -1, 1];
@@ -217,29 +217,48 @@ function createGuitarObstacle() {
   obstacle.fill(0);
 
   const cx = Math.floor(NX * 0.35);
-  const cy = Math.floor(NY * 0.5);
-  const s = Math.min(NX, NY) * 0.006;
+  const cy = Math.floor(NY * 0.58);
+  const s = Math.min(NX, NY) * 0.009;
 
-  // Body
-  fillEllipse(cx, cy - s * 4, s * 10, s * 8);
-  fillEllipse(cx, cy + s * 6, s * 12, s * 10);
-  fillEllipse(cx, cy + s * 1, s * 7, s * 6);
+  // --- Acoustic guitar silhouette ---
+
+  // Lower bout (large)
+  fillEllipse(cx, cy + s * 5, s * 12, s * 10);
+
+  // Upper bout (smaller)
+  fillEllipse(cx, cy - s * 6, s * 9, s * 7);
+
+  // Waist
+  fillEllipse(cx, cy - s * 0.5, s * 7, s * 5);
 
   // Neck
-  const neckLen = s * 22;
-  const neckW = s * 3;
-  for (let dy = -neckLen; dy < -s * 4; dy++) {
-    for (let dx = -neckW; dx <= neckW; dx++) {
+  const neckLen = s * 20;
+  const neckW = s * 2.5;
+  const neckStartY = cy - s * 12;
+  for (let dy = 0; dy < neckLen; dy++) {
+    const w = neckW + dy * 0.015;
+    for (let dx = -Math.floor(w); dx <= Math.floor(w); dx++) {
       const px = cx + Math.floor(dx);
-      const py = cy + Math.floor(dy);
+      const py = Math.floor(neckStartY - dy);
       if (px >= 0 && px < NX && py >= 0 && py < NY) {
         obstacle[py * NX + px] = 1;
       }
     }
   }
 
-  // Headstock
-  fillEllipse(cx, cy - Math.floor(neckLen) - s * 2, s * 5, s * 4);
+  // Headstock (rectangular, slightly wider)
+  const headY = Math.floor(neckStartY - neckLen);
+  const headLen = s * 8;
+  for (let dy = 0; dy < headLen; dy++) {
+    const w = neckW + s * 1.5;
+    for (let dx = -Math.floor(w); dx <= Math.floor(w); dx++) {
+      const px = cx + Math.floor(dx);
+      const py = Math.floor(headY - dy);
+      if (px >= 0 && px < NX && py >= 0 && py < NY) {
+        obstacle[py * NX + px] = 1;
+      }
+    }
+  }
 }
 
 function fillEllipse(ex, ey, rx, ry) {
@@ -360,7 +379,7 @@ function render() {
       const pIdx = idx * 4;
 
       if (obstacle[idx]) {
-        data[pIdx] = 18; data[pIdx+1] = 22; data[pIdx+2] = 34; data[pIdx+3] = 255;
+        data[pIdx] = 101; data[pIdx+1] = 67; data[pIdx+2] = 33; data[pIdx+3] = 255;
         continue;
       }
 
