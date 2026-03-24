@@ -48,6 +48,9 @@
   .loading-overlay.fade-out{opacity:0;pointer-events:none;}
   .loading-ring{width:36px;height:36px;border:2px solid rgba(255,255,255,0.08);border-top-color:rgba(255,200,0,0.8);border-radius:50%;animation:spin 1s linear infinite;}
   .loading-text{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:3px;color:rgba(255,255,255,0.35);margin-top:16px;}
+  .loading-progress{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1px;color:rgba(255,255,255,0.5);margin-top:12px;}
+  .loading-bar-bg{width:200px;height:2px;background:rgba(255,255,255,0.1);margin-top:8px;border-radius:1px;}
+  .loading-bar{height:100%;width:0%;background:rgba(255,200,0,0.6);border-radius:1px;transition:width 0.1s;}
   @keyframes spin{to{transform:rotate(360deg);}}
 
   .footer{padding:20px 48px;text-align:center;font-size:9px;color:rgba(0,0,0,0.25);letter-spacing:1px;}
@@ -74,7 +77,7 @@
     <div class="logo-text">MASH3<span>GT</span></div>
   </a>
   <div class="nav-links">
-    <a href="index.html" class="nav-link">Simulator</a>
+    <a href="index.html" class="nav-link">Gallery</a>
     <a href="concept.html" class="nav-link">Concept</a>
     <a href="about.html" class="nav-link">About</a>
   </div>
@@ -84,7 +87,9 @@
   <div class="artwork-frame">
     <div class="loading-overlay" id="loading">
       <div class="loading-ring"></div>
-      <div class="loading-text">POWERING UP</div>
+      <div class="loading-text">COMPUTING STEADY STATE</div>
+      <div class="loading-progress" id="loading-progress">0 / 10000 steps</div>
+      <div class="loading-bar-bg"><div class="loading-bar" id="loading-bar"></div></div>
     </div>
     <canvas id="sim-canvas"></canvas>
   </div>
@@ -346,11 +351,15 @@ powerSlider.addEventListener('input', () => {
   powerDisplay.textContent = power.toFixed(2);
 });
 
+const totalWarmUp = 10000;
 function warmUp(remaining) {
   const batch = 100;
   const count = Math.min(batch, remaining);
   for (let i = 0; i < count; i++) solve();
   remaining -= count;
+  const done = totalWarmUp - remaining;
+  document.getElementById('loading-progress').textContent = done + ' / ' + totalWarmUp + ' steps';
+  document.getElementById('loading-bar').style.width = (done / totalWarmUp * 100) + '%';
   if (remaining > 0) {
     setTimeout(() => warmUp(remaining), 0);
   } else {

@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>mash3gt — Fluid Simulator</title>
-<meta name="description" content="Interactive fluid dynamics simulation around a guitar — by mash3gt.">
+<title>mash3gt — Gallery</title>
+<meta name="description" content="Engineering as art — interactive physics simulations by mash3gt.">
 
 <!-- OGP (Open Graph) -->
 <meta property="og:type" content="website">
-<meta property="og:title" content="mash3gt — Fluid Simulator">
-<meta property="og:description" content="Interactive fluid dynamics simulation around a guitar — by mash3gt.">
+<meta property="og:title" content="mash3gt — Gallery">
+<meta property="og:description" content="Engineering as art — interactive physics simulations by mash3gt.">
 <meta property="og:url" content="https://mash3gt.github.io/">
 <meta property="og:image" content="https://mash3gt.github.io/images/mash3gt_icon.png">
 <meta property="og:locale" content="en_US">
@@ -17,8 +17,8 @@
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@mash3gt">
-<meta name="twitter:title" content="mash3gt — Fluid Simulator">
-<meta name="twitter:description" content="Interactive fluid dynamics simulation around a guitar — by mash3gt.">
+<meta name="twitter:title" content="mash3gt — Gallery">
+<meta name="twitter:description" content="Engineering as art — interactive physics simulations by mash3gt.">
 <meta name="twitter:image" content="https://mash3gt.github.io/images/mash3gt_icon.png">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -27,7 +27,6 @@
   *{margin:0;padding:0;box-sizing:border-box;}
   body{background:#d5d0cb url("images/freddie-MGFzzAAAWlw-unsplash.jpg") center/cover fixed;color:#2a2a2a;font-family:'Outfit','Noto Sans JP',sans-serif;font-weight:300;line-height:1.7;min-height:100vh;display:flex;flex-direction:column;}
 
-  /* Nav — shared with concept/about */
   .nav{position:fixed;top:0;left:0;right:0;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;z-index:100;background:rgba(255,255,255,0.8);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,0.06);}
   .logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
   .logo-text{font-family:'Outfit',sans-serif;font-weight:600;font-size:15px;letter-spacing:3px;color:#2a2a2a;}
@@ -37,56 +36,34 @@
   .nav-link:hover{color:#2a2a2a;border-color:rgba(0,0,0,0.25);}
   .nav-link.active{color:#2a2a2a;border-color:rgba(0,0,0,0.2);}
 
-  /* Gallery layout */
-  .gallery{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:72px 28px 28px;}
+  .gallery{flex:1;max-width:880px;width:100%;margin:0 auto;padding:80px 48px 60px;}
 
-  /* Canvas frame — artwork on the wall */
-  .artwork-frame{width:60%;aspect-ratio:4/3;background:#06080f;box-shadow:0 4px 40px rgba(0,0,0,0.25);position:relative;overflow:hidden;}
-  .artwork-frame canvas{display:block;width:100%;height:100%;}
+  .gallery-title{font-family:'Outfit',sans-serif;font-size:22px;font-weight:600;color:#2a2a2a;letter-spacing:2px;margin-bottom:40px;}
 
-  /* Caption + Controls row below the artwork */
-  .artwork-info{width:60%;display:flex;justify-content:space-between;align-items:flex-start;margin-top:20px;gap:24px;}
+  .works{display:grid;grid-template-columns:1fr 1fr;gap:28px;}
 
-  /* Caption — museum wall card */
-  .caption{max-width:400px;background:rgba(255,255,255,0.92);padding:20px 24px;border-radius:2px;box-shadow:0 1px 8px rgba(0,0,0,0.08);}
-  .caption-title{font-family:'Outfit',sans-serif;font-size:15px;font-weight:600;color:#2a2a2a;letter-spacing:1px;margin-bottom:6px;}
-  .caption-technique{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:1px;color:rgba(0,0,0,0.35);margin-bottom:12px;}
-  .caption-statement{font-size:12px;font-style:italic;color:#2a2a2a;line-height:1.7;margin-bottom:6px;}
-  .caption-statement-ja{font-size:12px;font-style:italic;color:#2a2a2a;line-height:1.8;}
+  .work-card{text-decoration:none;color:inherit;display:block;background:rgba(255,255,255,0.92);border-radius:2px;box-shadow:0 2px 16px rgba(0,0,0,0.08);overflow:hidden;transition:transform 0.2s, box-shadow 0.2s;}
+  .work-card:hover{transform:translateY(-4px);box-shadow:0 8px 32px rgba(0,0,0,0.15);}
 
-  /* Controls */
-  .controls{display:flex;flex-direction:column;gap:6px;align-items:flex-end;flex-shrink:0;}
-  .ctrl-row{display:flex;align-items:center;gap:8px;}
-  .ctrl-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:1px;color:rgba(0,0,0,0.3);white-space:nowrap;}
-  .ctrl-val{font-family:'IBM Plex Mono',monospace;font-size:10px;color:rgba(0,0,0,0.55);min-width:36px;text-align:right;}
-  input[type="range"]{width:80px;height:2px;-webkit-appearance:none;appearance:none;background:rgba(0,0,0,0.12);border-radius:1px;outline:none;}
-  input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:10px;height:10px;border-radius:50%;background:rgba(0,0,0,0.4);cursor:pointer;}
-  .viz-modes{display:flex;gap:4px;margin-top:4px;}
-  .viz-btn{padding:3px 10px;font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:1px;text-transform:uppercase;color:rgba(0,0,0,0.25);background:none;border:1px solid rgba(0,0,0,0.1);border-radius:10px;cursor:pointer;transition:all 0.2s;}
-  .viz-btn:hover{color:rgba(0,0,0,0.5);}
-  .viz-btn.active{color:#2a2a2a;border-color:rgba(0,0,0,0.25);}
+  .work-thumb{width:100%;aspect-ratio:4/3;background:#0a0a0a;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+  .work-thumb img{width:100%;height:100%;object-fit:cover;}
+  .work-thumb .placeholder{font-family:'IBM Plex Mono',monospace;font-size:10px;color:rgba(255,255,255,0.3);letter-spacing:2px;}
 
-  /* Loading */
-  .loading-overlay{position:absolute;inset:0;background:#06080f;z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.8s ease;}
-  .loading-overlay.fade-out{opacity:0;pointer-events:none;}
-  .loading-ring{width:36px;height:36px;border:2px solid rgba(255,255,255,0.08);border-top-color:rgba(255,255,255,0.6);border-radius:50%;animation:spin 1s linear infinite;}
-  .loading-text{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:3px;color:rgba(255,255,255,0.35);margin-top:16px;}
-  @keyframes spin{to{transform:rotate(360deg);}}
+  .work-info{padding:16px 20px;}
+  .work-title{font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;color:#2a2a2a;letter-spacing:1px;margin-bottom:4px;}
+  .work-technique{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:1px;color:rgba(0,0,0,0.3);}
 
-  /* Footer — shared */
-  .footer{padding:20px 48px;text-align:center;font-size:9px;color:rgba(0,0,0,0.25);letter-spacing:1px;}
+  .footer{max-width:880px;width:100%;margin:0 auto;padding:20px 48px;text-align:center;font-size:9px;color:rgba(0,0,0,0.25);letter-spacing:1px;}
   .footer a{color:rgba(0,0,0,0.4);text-decoration:none;}
   .footer a:hover{text-decoration:underline;}
 
-  @media(max-width:700px){
+  @media(max-width:600px){
     .nav{padding:0 12px;height:44px;}
     .nav-link{font-size:7px;padding:3px 5px;letter-spacing:1px;}
-    .gallery{padding:60px 16px 16px;}
-    .artwork-frame{width:100%;aspect-ratio:4/3;}
-    .artwork-info{width:100%;flex-direction:column;gap:16px;margin-top:14px;}
-    .controls{align-items:flex-start;}
-    .caption-title{font-size:13px;}
-    .caption-statement,.caption-statement-ja{font-size:11px;}
+    .gallery{padding:64px 20px 40px;}
+    .gallery-title{font-size:18px;margin-bottom:28px;}
+    .works{grid-template-columns:1fr;gap:20px;}
+    .work-info{padding:12px 16px;}
     .footer{padding:16px 24px;}
   }
 </style>
@@ -98,419 +75,41 @@
     <div class="logo-text">MASH3<span>GT</span></div>
   </a>
   <div class="nav-links">
-    <a href="index.html" class="nav-link active">Simulator</a>
+    <a href="index.html" class="nav-link active">Gallery</a>
     <a href="concept.html" class="nav-link">Concept</a>
     <a href="about.html" class="nav-link">About</a>
   </div>
 </div>
 
 <div class="gallery">
-  <div class="artwork-frame">
-    <div class="loading-overlay" id="loading">
-      <div class="loading-ring"></div>
-      <div class="loading-text">INITIALIZING</div>
-    </div>
-    <canvas id="sim-canvas"></canvas>
-  </div>
+  <h1 class="gallery-title">GALLERY</h1>
 
-  <div class="artwork-info">
-    <div class="caption">
-      <div class="caption-title">001 — Flow around a Guitar</div>
-      <div class="caption-technique">Lattice Boltzmann Method / JavaScript + Canvas</div>
-      <div class="caption-statement">Two things I was obsessed with in school — guitars and fluid dynamics.<br>Maybe this is what the inside of my head looked like.</div>
-      <div class="caption-statement-ja">学生時代に熱中した２つのこと — ギターと数値流体力学。<br>当時の脳内は、こんな感じだったのかもしれない。</div>
-    </div>
+  <div class="works">
+    <a href="001.html" class="work-card">
+      <div class="work-thumb">
+        <img src="images/001 — Flow around a Guitar.png" alt="001 — Flow around a Guitar">
+      </div>
+      <div class="work-info">
+        <div class="work-title">001 — Flow around a Guitar</div>
+        <div class="work-technique">Lattice Boltzmann Method / JavaScript + Canvas</div>
+      </div>
+    </a>
 
-    <div class="controls">
-      <div class="ctrl-row">
-        <span class="ctrl-label">Velocity</span>
-        <input type="range" id="velocity-slider" min="0.02" max="0.15" step="0.005" value="0.10">
-        <span class="ctrl-val" id="velocity-display">0.10</span>
+    <a href="002.html" class="work-card">
+      <div class="work-thumb">
+        <img src="images/002 — From the Radiant to the Reserved.png" alt="002 — From the Radiant to the Reserved">
       </div>
-      <div class="ctrl-row">
-        <span class="ctrl-label">Viscosity</span>
-        <input type="range" id="viscosity-slider" min="0.005" max="0.05" step="0.001" value="0.02">
-        <span class="ctrl-val" id="viscosity-display">0.020</span>
+      <div class="work-info">
+        <div class="work-title">002 — From the Radiant to the Reserved</div>
+        <div class="work-technique">Heat Equation (Explicit FDM) / JavaScript + Canvas</div>
       </div>
-      <div class="ctrl-row">
-        <span class="ctrl-label">Re</span>
-        <span class="ctrl-val" id="re-display">—</span>
-      </div>
-      <div class="viz-modes">
-        <button class="viz-btn" data-mode="velocity">Speed</button>
-        <button class="viz-btn active" data-mode="vorticity">Vorticity</button>
-        <button class="viz-btn" data-mode="pressure">Pressure</button>
-      </div>
-    </div>
+    </a>
   </div>
 </div>
 
 <footer class="footer">
   Contact → <a href="https://x.com/mash3gt" target="_blank" rel="noopener noreferrer">X @mash3gt</a>
 </footer>
-
-<script>
-// =============================================================
-// Lattice Boltzmann Method (D2Q9) — 2D flow around a guitar
-// =============================================================
-
-const canvas = document.getElementById('sim-canvas');
-const ctx = canvas.getContext('2d');
-
-let U0 = 0.10;
-let nu = 0.02;
-let vizMode = 'vorticity';
-
-const Q = 9;
-const cxArr = [0, 1, 0, -1, 0, 1, -1, -1, 1];
-const cyArr = [0, 0, 1, 0, -1, 1, 1, -1, -1];
-const w  = [4/9, 1/9, 1/9, 1/9, 1/9, 1/36, 1/36, 1/36, 1/36];
-const opp = [0, 3, 4, 1, 2, 7, 8, 5, 6];
-
-let NX, NY;
-let f, fTemp, rho, ux, uy, obstacle;
-let imgData;
-const simScale = 2;
-
-function initSim() {
-  const frame = document.querySelector('.artwork-frame');
-  const w2 = frame.clientWidth;
-  const h2 = frame.clientHeight;
-
-  const dpr = window.devicePixelRatio || 1;
-  canvas.width = w2 * dpr;
-  canvas.height = h2 * dpr;
-  canvas.style.width = w2 + 'px';
-  canvas.style.height = h2 + 'px';
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-  NX = Math.floor(w2 / simScale);
-  NY = Math.floor(h2 / simScale);
-
-  const size = NX * NY;
-  f = new Float32Array(Q * size);
-  fTemp = new Float32Array(Q * size);
-  rho = new Float32Array(size);
-  ux = new Float32Array(size);
-  uy = new Float32Array(size);
-  obstacle = new Uint8Array(size);
-
-  for (let y = 0; y < NY; y++) {
-    for (let x = 0; x < NX; x++) {
-      const idx = y * NX + x;
-      rho[idx] = 1.0;
-      ux[idx] = U0;
-      uy[idx] = 0;
-      for (let i = 0; i < Q; i++) {
-        const cu = cxArr[i] * U0;
-        const usq = U0 * U0;
-        f[i * size + idx] = w[i] * (1 + 3 * cu + 4.5 * cu * cu - 1.5 * usq);
-      }
-    }
-  }
-
-  createGuitarObstacle();
-  imgData = ctx.createImageData(NX, NY);
-}
-
-function createGuitarObstacle() {
-  obstacle.fill(0);
-
-  const cx = Math.floor(NX * 0.35);
-  const cy = Math.floor(NY * 0.58);
-  const s = Math.min(NX, NY) * 0.009;
-
-  // --- Acoustic guitar silhouette ---
-
-  // Lower bout (large)
-  fillEllipse(cx, cy + s * 5, s * 12, s * 10);
-
-  // Upper bout (smaller)
-  fillEllipse(cx, cy - s * 6, s * 9, s * 7);
-
-  // Waist
-  fillEllipse(cx, cy - s * 0.5, s * 7, s * 5);
-
-  // Neck
-  const neckLen = s * 20;
-  const neckW = s * 2.5;
-  const neckStartY = cy - s * 12;
-  for (let dy = 0; dy < neckLen; dy++) {
-    const w = neckW + dy * 0.015;
-    for (let dx = -Math.floor(w); dx <= Math.floor(w); dx++) {
-      const px = cx + Math.floor(dx);
-      const py = Math.floor(neckStartY - dy);
-      if (px >= 0 && px < NX && py >= 0 && py < NY) {
-        obstacle[py * NX + px] = 1;
-      }
-    }
-  }
-
-  // Headstock (rectangular, slightly wider)
-  const headY = Math.floor(neckStartY - neckLen);
-  const headLen = s * 8;
-  for (let dy = 0; dy < headLen; dy++) {
-    const w = neckW + s * 1.5;
-    for (let dx = -Math.floor(w); dx <= Math.floor(w); dx++) {
-      const px = cx + Math.floor(dx);
-      const py = Math.floor(headY - dy);
-      if (px >= 0 && px < NX && py >= 0 && py < NY) {
-        obstacle[py * NX + px] = 1;
-      }
-    }
-  }
-}
-
-function fillEllipse(ex, ey, rx, ry) {
-  const x0 = Math.floor(ex);
-  const y0 = Math.floor(ey);
-  const rxI = Math.floor(rx);
-  const ryI = Math.floor(ry);
-  for (let dy = -ryI; dy <= ryI; dy++) {
-    for (let dx = -rxI; dx <= rxI; dx++) {
-      if ((dx * dx) / (rx * rx) + (dy * dy) / (ry * ry) <= 1) {
-        const px = x0 + dx;
-        const py = y0 + dy;
-        if (px >= 0 && px < NX && py >= 0 && py < NY) {
-          obstacle[py * NX + px] = 1;
-        }
-      }
-    }
-  }
-}
-
-function collideAndStream() {
-  const size = NX * NY;
-  const tau = 3 * nu + 0.5;
-  const invTau = 1.0 / tau;
-
-  for (let idx = 0; idx < size; idx++) {
-    if (obstacle[idx]) continue;
-    let r = 0, vx = 0, vy = 0;
-    for (let i = 0; i < Q; i++) {
-      const fi = f[i * size + idx];
-      r += fi;
-      vx += cxArr[i] * fi;
-      vy += cyArr[i] * fi;
-    }
-    if (r < 0.001) r = 1.0;
-    vx /= r; vy /= r;
-    rho[idx] = r; ux[idx] = vx; uy[idx] = vy;
-
-    const usq = vx * vx + vy * vy;
-    for (let i = 0; i < Q; i++) {
-      const cu = cxArr[i] * vx + cyArr[i] * vy;
-      const feq = w[i] * r * (1 + 3 * cu + 4.5 * cu * cu - 1.5 * usq);
-      f[i * size + idx] += (feq - f[i * size + idx]) * invTau;
-    }
-  }
-
-  for (let i = 0; i < Q; i++) {
-    for (let y = 0; y < NY; y++) {
-      for (let x = 0; x < NX; x++) {
-        const nx = x - cxArr[i];
-        const ny = ((y - cyArr[i]) % NY + NY) % NY;
-        if (nx >= 0 && nx < NX) {
-          fTemp[i * size + y * NX + x] = f[i * size + ny * NX + nx];
-        } else if (nx < 0) {
-          // Left: will be overwritten by inlet BC
-          fTemp[i * size + y * NX + x] = f[i * size + y * NX + x];
-        } else {
-          // Right: extrapolate from neighbor
-          fTemp[i * size + y * NX + x] = f[i * size + ny * NX + (NX - 1)];
-        }
-      }
-    }
-  }
-
-  f.set(fTemp);
-
-  for (let idx = 0; idx < size; idx++) {
-    if (!obstacle[idx]) continue;
-    for (let i = 0; i < Q; i++) {
-      f[i * size + idx] = fTemp[opp[i] * size + idx];
-    }
-  }
-
-  for (let y = 0; y < NY; y++) {
-    const idx = y * NX;
-    rho[idx] = 1.0; ux[idx] = U0; uy[idx] = 0;
-    const usq = U0 * U0;
-    for (let i = 0; i < Q; i++) {
-      const cu = cxArr[i] * U0;
-      f[i * size + idx] = w[i] * (1 + 3 * cu + 4.5 * cu * cu - 1.5 * usq);
-    }
-  }
-
-  for (let y = 0; y < NY; y++) {
-    const idxR = y * NX + (NX - 1);
-    const idxL = y * NX + (NX - 2);
-    for (let i = 0; i < Q; i++) {
-      f[i * size + idxR] = f[i * size + idxL];
-    }
-  }
-}
-
-function viridis(t) {
-  t = Math.max(0, Math.min(1, t));
-  return [
-    Math.floor(255 * Math.max(0, Math.min(1, -0.35 + 2.5 * t * t))),
-    Math.floor(255 * Math.max(0, Math.min(1, -0.05 + 1.5 * t - 0.8 * t * t))),
-    Math.floor(255 * Math.max(0, Math.min(1, 0.5 + 0.8 * t - 1.8 * t * t)))
-  ];
-}
-
-function plasma(t) {
-  t = Math.max(0, Math.min(1, t));
-  return [
-    Math.floor(255 * Math.max(0, Math.min(1, 0.05 + 2.2 * t - 1.3 * t * t))),
-    Math.floor(255 * Math.max(0, Math.min(1, -0.3 + 1.2 * t))),
-    Math.floor(255 * Math.max(0, Math.min(1, 0.53 + 0.5 * t - 2.0 * t * t + 1.5 * t * t * t)))
-  ];
-}
-
-function render() {
-  const size = NX * NY;
-  const data = imgData.data;
-
-  for (let y = 0; y < NY; y++) {
-    for (let x = 0; x < NX; x++) {
-      const idx = y * NX + x;
-      const pIdx = idx * 4;
-
-      if (obstacle[idx]) {
-        data[pIdx] = 101; data[pIdx+1] = 67; data[pIdx+2] = 33; data[pIdx+3] = 255;
-        continue;
-      }
-
-      let val = 0;
-      if (vizMode === 'velocity') {
-        val = Math.sqrt(ux[idx]*ux[idx] + uy[idx]*uy[idx]) / (U0 * 1.5);
-      } else if (vizMode === 'vorticity') {
-        if (x > 0 && x < NX-1 && y > 0 && y < NY-1) {
-          const vort = (uy[idx+1]-uy[idx-1])*0.5 - (ux[(y+1)*NX+x]-ux[(y-1)*NX+x])*0.5;
-          val = 0.5 + vort * 15;
-        }
-      } else {
-        val = (rho[idx] - 0.98) / 0.06;
-      }
-
-      const [r,g,b] = vizMode === 'vorticity' ? plasma(val) : viridis(val);
-      data[pIdx] = r; data[pIdx+1] = g; data[pIdx+2] = b; data[pIdx+3] = 255;
-    }
-  }
-
-  const offscreen = new OffscreenCanvas(NX, NY);
-  const offCtx = offscreen.getContext('2d');
-  offCtx.putImageData(imgData, 0, 0);
-  ctx.imageSmoothingEnabled = true;
-  const frame = document.querySelector('.artwork-frame');
-  const fw = frame.clientWidth;
-  const fh = frame.clientHeight;
-  ctx.drawImage(offscreen, 0, 0, fw, fh);
-
-  // Velocity vectors in Speed mode
-  if (vizMode === 'velocity') {
-    const step = Math.max(1, Math.round(Math.min(NX, NY) * 0.02));
-    const cellW = fw / NX;
-    const cellH = fh / NY;
-    const arrowLen = step * cellW * 0.8;
-    ctx.lineWidth = 0.7;
-    for (let y = Math.floor(step / 2); y < NY; y += step) {
-      for (let x = Math.floor(step / 2); x < NX; x += step) {
-        const idx = y * NX + x;
-        if (obstacle[idx]) continue;
-        const vx = ux[idx];
-        const vy = uy[idx];
-        const spd = Math.sqrt(vx * vx + vy * vy);
-        if (spd < 0.0001) continue;
-        // Unit direction
-        const ax = vx / spd;
-        const ay = vy / spd;
-        const px = x * cellW;
-        const py = y * cellH;
-        const dx = ax * arrowLen;
-        const dy = ay * arrowLen;
-        // Color by speed
-        const t = Math.min(1, spd / (U0 * 1.5));
-        const alpha = 0.2 + t * 0.5;
-        ctx.strokeStyle = 'rgba(255,255,255,' + alpha + ')';
-        ctx.beginPath();
-        ctx.moveTo(px, py);
-        ctx.lineTo(px + dx, py + dy);
-        ctx.stroke();
-        // Arrowhead
-        const hs = 2.5;
-        ctx.beginPath();
-        ctx.moveTo(px + dx, py + dy);
-        ctx.lineTo(px + dx - hs * ax + hs * 0.4 * ay, py + dy - hs * ay - hs * 0.4 * ax);
-        ctx.moveTo(px + dx, py + dy);
-        ctx.lineTo(px + dx - hs * ax - hs * 0.4 * ay, py + dy - hs * ay + hs * 0.4 * ax);
-        ctx.stroke();
-      }
-    }
-  }
-}
-
-// UI
-const velSlider = document.getElementById('velocity-slider');
-const velDisplay = document.getElementById('velocity-display');
-const viscSlider = document.getElementById('viscosity-slider');
-const viscDisplay = document.getElementById('viscosity-display');
-const reDisplay = document.getElementById('re-display');
-
-function updateRe() {
-  const charLen = Math.min(NX, NY) * 0.15;
-  reDisplay.textContent = Math.round(U0 * charLen / nu);
-}
-
-velSlider.addEventListener('input', () => {
-  U0 = parseFloat(velSlider.value);
-  velDisplay.textContent = U0.toFixed(2);
-  updateRe();
-});
-viscSlider.addEventListener('input', () => {
-  nu = parseFloat(viscSlider.value);
-  viscDisplay.textContent = nu.toFixed(3);
-  updateRe();
-});
-document.querySelectorAll('.viz-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.viz-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    vizMode = btn.dataset.mode;
-  });
-});
-
-function step() {
-  for (let i = 0; i < 8; i++) collideAndStream();
-  render();
-  updateRe();
-  requestAnimationFrame(step);
-}
-
-function warmUp(remaining) {
-  const batch = 50;
-  const count = Math.min(batch, remaining);
-  for (let i = 0; i < count; i++) collideAndStream();
-  remaining -= count;
-  if (remaining > 0) {
-    setTimeout(() => warmUp(remaining), 0);
-  } else {
-    render();
-    document.getElementById('loading').classList.add('fade-out');
-    step();
-  }
-}
-
-function start() {
-  initSim();
-  warmUp(400);
-}
-
-window.addEventListener('resize', initSim);
-start();
-</script>
 
 </body>
 </html>
