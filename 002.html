@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>mash3gt — From the Radiant to the Reserved</title>
+<meta name="description" content="Heat diffusion from the radiant to the reserved — by mash3gt.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&family=Outfit:wght@300;400;600&family=Noto+Sans+JP:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:#d5d0cb url("images/freddie-MGFzzAAAWlw-unsplash.jpg") center/cover fixed;color:#2a2a2a;font-family:'Outfit','Noto Sans JP',sans-serif;font-weight:300;line-height:1.7;min-height:100vh;display:flex;flex-direction:column;}
+
+  .nav{position:fixed;top:0;left:0;right:0;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;z-index:100;background:rgba(255,255,255,0.8);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,0.06);}
+  .logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+  .logo-text{font-family:'Outfit',sans-serif;font-weight:600;font-size:15px;letter-spacing:3px;color:#2a2a2a;}
+  .logo-text span{color:rgba(0,0,0,0.35);}
+  .nav-links{display:flex;align-items:center;gap:12px;}
+  .nav-link{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(0,0,0,0.4);text-decoration:none;padding:4px 8px;border:1px solid rgba(0,0,0,0.08);border-radius:4px;transition:all 0.2s;}
+  .nav-link:hover{color:#2a2a2a;border-color:rgba(0,0,0,0.25);}
+  .nav-link.active{color:#2a2a2a;border-color:rgba(0,0,0,0.2);}
+
+  .gallery{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:72px 28px 28px;}
+
+  .artwork-frame{width:60%;aspect-ratio:4/3;background:#0a0a0a;box-shadow:0 4px 40px rgba(0,0,0,0.25);position:relative;overflow:hidden;}
+  .artwork-frame canvas{display:block;width:100%;height:100%;}
+
+  .artwork-info{width:60%;display:flex;justify-content:space-between;align-items:flex-start;margin-top:20px;gap:24px;}
+
+  .caption{max-width:400px;background:rgba(255,255,255,0.92);padding:20px 24px;border-radius:2px;box-shadow:0 1px 8px rgba(0,0,0,0.08);}
+  .caption-title{font-family:'Outfit',sans-serif;font-size:15px;font-weight:600;color:#2a2a2a;letter-spacing:1px;margin-bottom:6px;}
+  .caption-technique{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:1px;color:rgba(0,0,0,0.35);margin-bottom:12px;}
+  .caption-statement{font-size:12px;font-style:italic;color:#2a2a2a;line-height:1.7;margin-bottom:6px;}
+  .caption-statement-ja{font-size:12px;font-style:italic;color:#2a2a2a;line-height:1.8;}
+
+  .controls{display:flex;flex-direction:column;gap:6px;align-items:flex-end;flex-shrink:0;}
+  .ctrl-row{display:flex;align-items:center;gap:8px;}
+  .ctrl-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:1px;color:rgba(0,0,0,0.3);white-space:nowrap;}
+  .ctrl-val{font-family:'IBM Plex Mono',monospace;font-size:10px;color:rgba(0,0,0,0.55);min-width:36px;text-align:right;}
+  input[type="range"]{width:80px;height:2px;-webkit-appearance:none;appearance:none;background:rgba(0,0,0,0.12);border-radius:1px;outline:none;}
+  input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:10px;height:10px;border-radius:50%;background:rgba(0,0,0,0.4);cursor:pointer;}
+  .viz-modes{display:flex;gap:4px;margin-top:4px;}
+  .viz-btn{padding:3px 10px;font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:1px;text-transform:uppercase;color:rgba(0,0,0,0.25);background:none;border:1px solid rgba(0,0,0,0.1);border-radius:10px;cursor:pointer;transition:all 0.2s;}
+  .viz-btn:hover{color:rgba(0,0,0,0.5);}
+  .viz-btn.active{color:#2a2a2a;border-color:rgba(0,0,0,0.25);}
+
+  .loading-overlay{position:absolute;inset:0;background:#0a0a0a;z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.8s ease;}
+  .loading-overlay.fade-out{opacity:0;pointer-events:none;}
+  .loading-ring{width:36px;height:36px;border:2px solid rgba(255,255,255,0.08);border-top-color:rgba(255,200,0,0.8);border-radius:50%;animation:spin 1s linear infinite;}
+  .loading-text{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:3px;color:rgba(255,255,255,0.35);margin-top:16px;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+
+  .footer{padding:20px 48px;text-align:center;font-size:9px;color:rgba(0,0,0,0.25);letter-spacing:1px;}
+  .footer a{color:rgba(0,0,0,0.4);text-decoration:none;}
+  .footer a:hover{text-decoration:underline;}
+
+  @media(max-width:700px){
+    .nav{padding:0 12px;height:44px;}
+    .nav-link{font-size:7px;padding:3px 5px;letter-spacing:1px;}
+    .gallery{padding:60px 16px 16px;}
+    .artwork-frame{width:100%;aspect-ratio:4/3;}
+    .artwork-info{width:100%;flex-direction:column;gap:16px;margin-top:14px;}
+    .controls{align-items:flex-start;}
+    .caption-title{font-size:13px;}
+    .caption-statement,.caption-statement-ja{font-size:11px;}
+    .footer{padding:16px 24px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <a href="index.html" class="logo">
+    <div class="logo-text">MASH3<span>GT</span></div>
+  </a>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">Simulator</a>
+    <a href="concept.html" class="nav-link">Concept</a>
+    <a href="about.html" class="nav-link">About</a>
+  </div>
+</div>
+
+<div class="gallery">
+  <div class="artwork-frame">
+    <div class="loading-overlay" id="loading">
+      <div class="loading-ring"></div>
+      <div class="loading-text">POWERING UP</div>
+    </div>
+    <canvas id="sim-canvas"></canvas>
+  </div>
+
+  <div class="artwork-info">
+    <div class="caption">
+      <div class="caption-title">002 — From the Radiant to the Reserved</div>
+      <div class="caption-technique">Heat Equation (Explicit FDM) / JavaScript + Canvas</div>
+      <div class="caption-statement">I am the quiet one. Extroverts dazzle me — but their warmth reaches me, and I am grateful.</div>
+      <div class="caption-statement-ja">私は陰キャである。陽キャは眩しい — でもその熱は届いている。感謝している。</div>
+    </div>
+
+    <div class="controls">
+      <div class="ctrl-row">
+        <span class="ctrl-label">Diffusivity</span>
+        <input type="range" id="alpha-slider" min="0.05" max="0.5" step="0.01" value="0.2">
+        <span class="ctrl-val" id="alpha-display">0.20</span>
+      </div>
+      <div class="ctrl-row">
+        <span class="ctrl-label">Power</span>
+        <input type="range" id="power-slider" min="0.3" max="1.0" step="0.05" value="0.8">
+        <span class="ctrl-val" id="power-display">0.80</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  Contact → <a href="https://x.com/mash3gt" target="_blank" rel="noopener noreferrer">X @mash3gt</a>
+</footer>
+
+<script>
+// =============================================================
+// 2D Heat Equation — Super Saiyan heat diffusion
+// =============================================================
+
+const canvas = document.getElementById('sim-canvas');
+const ctx = canvas.getContext('2d');
+
+let alpha = 0.2;
+let power = 0.8;
+let vizMode = 'flux';
+
+let NX, NY;
+let T, TNew, source, sink;
+let imgData;
+const simScale = 2;
+
+function initSim() {
+  const frame = document.querySelector('.artwork-frame');
+  const w = frame.clientWidth;
+  const h = frame.clientHeight;
+
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = w * dpr;
+  canvas.height = h * dpr;
+  canvas.style.width = w + 'px';
+  canvas.style.height = h + 'px';
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+  NX = Math.floor(w / simScale);
+  NY = Math.floor(h / simScale);
+
+  const size = NX * NY;
+  T = new Float32Array(size);
+  TNew = new Float32Array(size);
+  source = new Uint8Array(size);
+  sink = new Uint8Array(size);
+
+  imgData = ctx.createImageData(NX, NY);
+}
+
+function loadSourceFromImage() {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => {
+      const tmpCanvas = document.createElement('canvas');
+      tmpCanvas.width = NX;
+      tmpCanvas.height = NY;
+      const tmpCtx = tmpCanvas.getContext('2d');
+      tmpCtx.drawImage(img, 0, 0, NX, NY);
+      const pixels = tmpCtx.getImageData(0, 0, NX, NY).data;
+      source.fill(0);
+      sink.fill(0);
+      const halfX = Math.floor(NX / 2);
+      for (let i = 0; i < NX * NY; i++) {
+        const x = i % NX;
+        const r = pixels[i * 4];
+        const g = pixels[i * 4 + 1];
+        const b = pixels[i * 4 + 2];
+        const brightness = (r + g + b) / 3;
+        if (brightness > 20) {
+          if (x < halfX) {
+            source[i] = 1;  // Left half: any non-black = heat source (陽キャ)
+          } else {
+            sink[i] = 1;    // Right half: any non-black = heat sink (陰キャ)
+          }
+        }
+      }
+      resolve();
+    };
+    img.onerror = () => {
+      console.warn('Source image not found, using fallback');
+      source.fill(0);
+      sink.fill(0);
+      resolve();
+    };
+    img.src = 'images/002-source.png';
+  });
+}
+
+function solve() {
+  const dx2 = 1.0;
+  const dt = 0.2;
+  const coeff = alpha * dt / dx2;
+
+  // Apply source (陽キャ) and sink (陰キャ) — fixed temperature
+  for (let idx = 0; idx < NX * NY; idx++) {
+    if (source[idx]) {
+      T[idx] = power;
+    } else if (sink[idx]) {
+      T[idx] = -power;
+    }
+  }
+
+  // Explicit time integration
+  for (let y = 1; y < NY - 1; y++) {
+    for (let x = 1; x < NX - 1; x++) {
+      const idx = y * NX + x;
+      if (source[idx] || sink[idx]) { TNew[idx] = T[idx]; continue; }
+      TNew[idx] = T[idx] + coeff * (
+        T[idx + 1] + T[idx - 1] + T[idx + NX] + T[idx - NX] - 4 * T[idx]
+      );
+    }
+  }
+
+  // Boundary: T = 0
+  for (let x = 0; x < NX; x++) { TNew[x] = 0; TNew[(NY - 1) * NX + x] = 0; }
+  for (let y = 0; y < NY; y++) { TNew[y * NX] = 0; TNew[y * NX + NX - 1] = 0; }
+
+  const tmp = T; T = TNew; TNew = tmp;
+}
+
+// Colormap: blue (cold) ← black (neutral) → red/yellow/white (hot)
+function heatColor(t) {
+  // t ranges from -1 to +1
+  t = Math.max(-1, Math.min(1, t));
+  let r, g, b;
+  if (t >= 0) {
+    // Warm: black → red → orange → yellow → white
+    if (t < 0.33) {
+      const s = t / 0.33;
+      r = s * 200; g = 0; b = 0;
+    } else if (t < 0.66) {
+      const s = (t - 0.33) / 0.33;
+      r = 200 + s * 55; g = s * 160; b = 0;
+    } else {
+      const s = (t - 0.66) / 0.34;
+      r = 255; g = 160 + s * 95; b = s * 255;
+    }
+  } else {
+    // Cool: black → blue → cyan → white
+    const a = -t;
+    if (a < 0.33) {
+      const s = a / 0.33;
+      r = 0; g = 0; b = s * 200;
+    } else if (a < 0.66) {
+      const s = (a - 0.33) / 0.33;
+      r = 0; g = s * 160; b = 200 + s * 55;
+    } else {
+      const s = (a - 0.66) / 0.34;
+      r = s * 255; g = 160 + s * 95; b = 255;
+    }
+  }
+  return [Math.floor(r), Math.floor(g), Math.floor(b)];
+}
+
+function render() {
+  const data = imgData.data;
+
+  for (let y = 0; y < NY; y++) {
+    for (let x = 0; x < NX; x++) {
+      const idx = y * NX + x;
+      const pIdx = idx * 4;
+
+      // Always show temperature contour
+      const val = T[idx];
+      const [r, g, b] = heatColor(val);
+      data[pIdx] = r; data[pIdx + 1] = g; data[pIdx + 2] = b; data[pIdx + 3] = 255;
+    }
+  }
+
+  const offscreen = new OffscreenCanvas(NX, NY);
+  const offCtx = offscreen.getContext('2d');
+  offCtx.putImageData(imgData, 0, 0);
+  ctx.imageSmoothingEnabled = true;
+  const frame = document.querySelector('.artwork-frame');
+  const fw = frame.clientWidth;
+  const fh = frame.clientHeight;
+  ctx.drawImage(offscreen, 0, 0, fw, fh);
+
+  // Heat flux vectors overlay
+  {
+    const step = Math.max(1, Math.round(Math.min(NX, NY) * 0.02));
+    const cellW = fw / NX;
+    const cellH = fh / NY;
+    const arrowLen = step * cellW * 2.5;
+    ctx.lineWidth = 1.0;
+    for (let y = Math.floor(step / 2); y < NY; y += step) {
+      for (let x = Math.floor(step / 2); x < NX; x += step) {
+        const idx = y * NX + x;
+        if (source[idx] || sink[idx]) continue;
+        if (x <= 0 || x >= NX - 1 || y <= 0 || y >= NY - 1) continue;
+        const qx = -alpha * (T[idx + 1] - T[idx - 1]) * 0.5;
+        const qy = -alpha * (T[idx + NX] - T[idx - NX]) * 0.5;
+        const mag = Math.sqrt(qx * qx + qy * qy);
+        if (mag < 0.0001) continue;
+        // Direction scaled by magnitude
+        const t = Math.min(1, mag * 10);
+        const len = arrowLen * (0.15 + t * 0.85);
+        const ax = qx / mag;
+        const ay = qy / mag;
+        const px = x * cellW;
+        const py = y * cellH;
+        const dx = ax * len;
+        const dy = ay * len;
+        // Color by magnitude
+        const a = 0.3 + t * 0.6;
+        ctx.strokeStyle = 'rgba(255,255,255,' + a + ')';
+        ctx.beginPath();
+        ctx.moveTo(px, py);
+        ctx.lineTo(px + dx, py + dy);
+        ctx.stroke();
+        // Arrowhead
+        const hs = 3.5;
+        ctx.beginPath();
+        ctx.moveTo(px + dx, py + dy);
+        ctx.lineTo(px + dx - hs * ax + hs * 0.4 * ay, py + dy - hs * ay - hs * 0.4 * ax);
+        ctx.moveTo(px + dx, py + dy);
+        ctx.lineTo(px + dx - hs * ax - hs * 0.4 * ay, py + dy - hs * ay + hs * 0.4 * ax);
+        ctx.stroke();
+      }
+    }
+  }
+}
+
+// UI
+const alphaSlider = document.getElementById('alpha-slider');
+const alphaDisplay = document.getElementById('alpha-display');
+const powerSlider = document.getElementById('power-slider');
+const powerDisplay = document.getElementById('power-display');
+
+alphaSlider.addEventListener('input', () => {
+  alpha = parseFloat(alphaSlider.value);
+  alphaDisplay.textContent = alpha.toFixed(2);
+});
+powerSlider.addEventListener('input', () => {
+  power = parseFloat(powerSlider.value);
+  powerDisplay.textContent = power.toFixed(2);
+});
+
+function warmUp(remaining) {
+  const batch = 100;
+  const count = Math.min(batch, remaining);
+  for (let i = 0; i < count; i++) solve();
+  remaining -= count;
+  if (remaining > 0) {
+    setTimeout(() => warmUp(remaining), 0);
+  } else {
+    render();
+    document.getElementById('loading').classList.add('fade-out');
+  }
+}
+
+async function start() {
+  initSim();
+  await loadSourceFromImage();
+  warmUp(10000);
+}
+
+window.addEventListener('resize', initSim);
+start();
+</script>
+
+</body>
+</html>
