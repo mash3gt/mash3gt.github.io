@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>mash3gt — The Shape of Common Sense</title>
+<meta name="description" content="Galton Board simulation showing how filter bubbles distort common sense — by mash3gt.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&family=Outfit:wght@300;400;600&family=Noto+Sans+JP:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:#d5d0cb url("images/freddie-MGFzzAAAWlw-unsplash.jpg") center/cover fixed;color:#2a2a2a;font-family:'Outfit','Noto Sans JP',sans-serif;font-weight:300;line-height:1.7;min-height:100vh;display:flex;flex-direction:column;}
+
+  .nav{position:fixed;top:0;left:0;right:0;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;z-index:100;background:rgba(255,255,255,0.8);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,0.06);}
+  .logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+  .logo-text{font-family:'Outfit',sans-serif;font-weight:600;font-size:15px;letter-spacing:3px;color:#2a2a2a;}
+  .logo-text span{color:rgba(0,0,0,0.35);}
+  .nav-links{display:flex;align-items:center;gap:12px;}
+  .nav-link{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(0,0,0,0.4);text-decoration:none;padding:4px 8px;border:1px solid rgba(0,0,0,0.08);border-radius:4px;transition:all 0.2s;}
+  .nav-link:hover{color:#2a2a2a;border-color:rgba(0,0,0,0.25);}
+  .nav-link.active{color:#2a2a2a;border-color:rgba(0,0,0,0.2);}
+
+  .gallery{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:72px 28px 28px;}
+
+  .artwork-frame{width:60%;aspect-ratio:4/3;background:#0a0a0a;box-shadow:0 4px 40px rgba(0,0,0,0.25);position:relative;overflow:hidden;}
+  .artwork-frame canvas{display:block;width:100%;height:100%;}
+
+  .artwork-info{width:60%;display:flex;justify-content:space-between;align-items:flex-start;margin-top:20px;gap:24px;}
+
+  .caption{max-width:400px;background:rgba(255,255,255,0.92);padding:20px 24px;border-radius:2px;box-shadow:0 1px 8px rgba(0,0,0,0.08);}
+  .caption-title{font-family:'Outfit',sans-serif;font-size:15px;font-weight:600;color:#2a2a2a;letter-spacing:1px;margin-bottom:6px;}
+  .caption-technique{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:1px;color:rgba(0,0,0,0.35);margin-bottom:12px;}
+  .caption-statement{font-size:12px;font-style:italic;color:#2a2a2a;line-height:1.7;margin-bottom:6px;}
+  .caption-statement-ja{font-size:12px;font-style:italic;color:#2a2a2a;line-height:1.8;}
+
+  .controls{display:flex;flex-direction:column;gap:6px;align-items:flex-end;flex-shrink:0;}
+  .ctrl-row{display:flex;align-items:center;gap:8px;}
+  .ctrl-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:1px;color:rgba(0,0,0,0.3);white-space:nowrap;}
+  .ctrl-val{font-family:'IBM Plex Mono',monospace;font-size:10px;color:rgba(0,0,0,0.55);min-width:36px;text-align:right;}
+  input[type="range"]{width:80px;height:2px;-webkit-appearance:none;appearance:none;background:rgba(0,0,0,0.12);border-radius:1px;outline:none;}
+  input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:10px;height:10px;border-radius:50%;background:rgba(0,0,0,0.4);cursor:pointer;}
+
+  .footer{padding:20px 48px;text-align:center;font-size:9px;color:rgba(0,0,0,0.25);letter-spacing:1px;}
+  .footer a{color:rgba(0,0,0,0.4);text-decoration:none;}
+  .footer a:hover{text-decoration:underline;}
+
+  @media(max-width:700px){
+    .nav{padding:0 12px;height:44px;}
+    .nav-link{font-size:7px;padding:3px 5px;letter-spacing:1px;}
+    .gallery{padding:60px 16px 16px;}
+    .artwork-frame{width:100%;aspect-ratio:4/3;}
+    .artwork-info{width:100%;flex-direction:column;gap:16px;margin-top:14px;}
+    .controls{align-items:flex-start;}
+    .caption-title{font-size:13px;}
+    .caption-statement,.caption-statement-ja{font-size:11px;}
+    .footer{padding:16px 24px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <a href="index.html" class="logo">
+    <div class="logo-text">MASH3<span>GT</span></div>
+  </a>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">Gallery</a>
+    <a href="concept.html" class="nav-link">Concept</a>
+    <a href="about.html" class="nav-link">About</a>
+  </div>
+</div>
+
+<div class="gallery">
+  <div class="artwork-frame">
+    <canvas id="sim-canvas"></canvas>
+  </div>
+
+  <div class="artwork-info">
+    <div class="caption">
+      <div class="caption-title">003 — The Unseen Filter</div>
+      <div class="caption-technique">Galton Board (Monte Carlo) / JavaScript + Canvas</div>
+      <div class="caption-statement">Facts are neutral. Without bias, they reach us evenly. But unseen filters color them — and we mistake the tinted view for truth.</div>
+      <div class="caption-statement-ja">事実は中立である。フィルターがなければ偏りなく届く。しかし見えないフィルターが色をつけ、私たちはそれを真実だと思い込む。</div>
+    </div>
+
+    <div class="controls">
+      <div class="ctrl-row">
+        <span class="ctrl-label">Bubble Bias</span>
+        <input type="range" id="bias-slider" min="0.55" max="0.95" step="0.05" value="0.80">
+        <span class="ctrl-val" id="bias-display">0.80</span>
+      </div>
+      <div class="ctrl-row">
+        <span class="ctrl-label">Drop Rate</span>
+        <input type="range" id="rate-slider" min="1" max="10" step="1" value="3">
+        <span class="ctrl-val" id="rate-display">3</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  Contact → <a href="https://x.com/mash3gt" target="_blank" rel="noopener noreferrer">X @mash3gt</a>
+</footer>
+
+<script>
+// =============================================================
+// Galton Board — Filter Bubble visualization
+// =============================================================
+
+const canvas = document.getElementById('sim-canvas');
+const ctx = canvas.getContext('2d');
+
+// --- Layout constants ---
+const PEG_ROWS = 30;
+const PEG_COLS = 51;  // max pegs in widest row
+
+let W, H, dpr;
+let pegRadius, pegSpacingX, pegSpacingY;
+let boardTop, boardMid, binHeight;
+let pegPositions = [[], []];  // [0] = normal, [1] = filtered
+let bins = [[], []];          // histogram bins for each board
+let balls = [[], []];         // active balls
+let bubbleCX, bubbleCY, bubbleRX, bubbleRY; // bubble position/radii (ellipse, board 1 only)
+let bias = 0.80;
+let dropRate = 3;
+let frameCount = 0;
+
+function initSim() {
+  const frame = document.querySelector('.artwork-frame');
+  W = frame.clientWidth;
+  H = frame.clientHeight;
+  dpr = window.devicePixelRatio || 1;
+  canvas.width = W * dpr;
+  canvas.height = H * dpr;
+  canvas.style.width = W + 'px';
+  canvas.style.height = H + 'px';
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+  // Each board takes half the canvas height
+  boardTop = [0, H * 0.5];
+  boardMid = H * 0.5;
+  binHeight = H * 0.12;
+  const labelHeight = 22;
+
+  pegSpacingX = W / (PEG_COLS + 2);
+  pegSpacingY = (H * 0.5 - binHeight - labelHeight - 40) / (PEG_ROWS + 1);
+  pegRadius = Math.max(1.5, pegSpacingX * 0.08);
+
+  // Generate peg positions for both boards
+  for (let b = 0; b < 2; b++) {
+    pegPositions[b] = [];
+    const topY = boardTop[b] + 30;
+    for (let row = 0; row < PEG_ROWS; row++) {
+      const pegsInRow = PEG_COLS - (row % 2 === 0 ? 0 : 1);
+      const offsetX = (row % 2 === 0) ? 0 : pegSpacingX * 0.5;
+      for (let col = 0; col < pegsInRow; col++) {
+        const x = pegSpacingX * 0.75 + offsetX + col * pegSpacingX;
+        const y = topY + row * pegSpacingY;
+        pegPositions[b].push({ x, y, row });
+      }
+    }
+  }
+
+  // Bubble — on board 1 (filtered), slightly left of center
+  bubbleCX = W * 0.38;
+  bubbleCY = boardTop[1] + 30 + PEG_ROWS * pegSpacingY * 0.5;
+  bubbleRX = W * 0.15;
+  bubbleRY = PEG_ROWS * pegSpacingY * 0.45;
+
+  // Reset bins
+  const numBins = PEG_COLS + 2;
+  bins[0] = new Array(numBins).fill(0);
+  bins[1] = new Array(numBins).fill(0);
+  balls[0] = [];
+  balls[1] = [];
+  frameCount = 0;
+}
+
+function isInBubble(x, y) {
+  const dx = (x - bubbleCX) / bubbleRX;
+  const dy = (y - bubbleCY) / bubbleRY;
+  return dx * dx + dy * dy < 1;
+}
+
+function spawnBall(boardIdx) {
+  // Drop from center top with slight randomness
+  const x = W * 0.5 + (Math.random() - 0.5) * pegSpacingX * 2;
+  const y = boardTop[boardIdx] + 28;
+  balls[boardIdx].push({
+    x, y,
+    vy: 0,
+    row: -1,
+    settled: false
+  });
+}
+
+function updateBalls() {
+  const gravity = pegSpacingY * 0.12;
+  const numBins = bins[0].length;
+  const binW = W / numBins;
+
+  for (let b = 0; b < 2; b++) {
+    const boardBottom = boardTop[b] + H * 0.5 - 22 - binHeight;
+    for (let i = balls[b].length - 1; i >= 0; i--) {
+      const ball = balls[b][i];
+      if (ball.settled) { balls[b].splice(i, 1); continue; }
+
+      ball.vy += gravity;
+      ball.y += ball.vy;
+
+      // Check peg collisions
+      for (const peg of pegPositions[b]) {
+        const dx = ball.x - peg.x;
+        const dy = ball.y - peg.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const hitDist = pegRadius + 2;
+        if (dist < hitDist && ball.vy > 0) {
+          ball.y = peg.y - hitDist;
+          ball.vy = Math.abs(ball.vy) * 0.15;
+
+          // Decide left or right
+          let goRight = Math.random() < 0.5;
+          // Apply bubble bias on board 1
+          if (b === 1 && isInBubble(peg.x, peg.y)) {
+            goRight = Math.random() < bias;  // biased toward right
+          }
+
+          ball.x += goRight ? pegSpacingX * 0.5 : -pegSpacingX * 0.5;
+          break;
+        }
+      }
+
+      // Reached bottom — settle into bin
+      if (ball.y >= boardBottom) {
+        const binIdx = Math.floor(ball.x / binW);
+        if (binIdx >= 0 && binIdx < numBins) {
+          bins[b][binIdx]++;
+        }
+        ball.settled = true;
+      }
+
+      // Keep within bounds
+      if (ball.x < pegSpacingX) ball.x = pegSpacingX;
+      if (ball.x > W - pegSpacingX) ball.x = W - pegSpacingX;
+    }
+  }
+}
+
+function render() {
+  ctx.clearRect(0, 0, W, H);
+
+  // Background
+  ctx.fillStyle = '#0a0a0a';
+  ctx.fillRect(0, 0, W, H);
+
+  for (let b = 0; b < 2; b++) {
+    const top = boardTop[b];
+
+    // Divider line between boards
+    if (b === 1) {
+      ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(0, boardMid);
+      ctx.lineTo(W, boardMid);
+      ctx.stroke();
+    }
+
+    // Board labels
+    ctx.font = '13px "IBM Plex Mono", monospace';
+    ctx.letterSpacing = '3px';
+    ctx.fillStyle = 'rgba(255,255,255,0.5)';
+    ctx.textAlign = 'left';
+    if (b === 0) {
+      ctx.fillText('FLAT', 12, top + 20);
+    } else {
+      ctx.fillText('BIAS', 12, top + 20);
+    }
+
+    // "INFORMATION" label at top center
+    ctx.textAlign = 'center';
+    ctx.fillStyle = 'rgba(255,255,255,0.7)';
+    ctx.fillText('▼ FACT ▼', W * 0.5, top + 20);
+
+    // Draw pegs
+    for (const peg of pegPositions[b]) {
+      // Pegs inside bubble are highlighted
+      const inBubble = b === 1 && isInBubble(peg.x, peg.y);
+      ctx.beginPath();
+      ctx.arc(peg.x, peg.y, pegRadius, 0, Math.PI * 2);
+      ctx.fillStyle = inBubble ? 'rgba(255,120,60,0.6)' : 'rgba(255,255,255,0.15)';
+      ctx.fill();
+    }
+
+    // Draw bubble on filtered board
+    if (b === 1) {
+      ctx.beginPath();
+      ctx.ellipse(bubbleCX, bubbleCY, bubbleRX, bubbleRY, 0, 0, Math.PI * 2);
+      ctx.strokeStyle = 'rgba(255,120,60,0.25)';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+      ctx.fillStyle = 'rgba(255,120,60,0.04)';
+      ctx.fill();
+
+      // Bubble label
+      ctx.font = '12px "IBM Plex Mono", monospace';
+      ctx.fillStyle = 'rgba(255,120,60,0.7)';
+      ctx.textAlign = 'center';
+      ctx.fillText('FILTER', bubbleCX, bubbleCY - bubbleRY - 8);
+    }
+
+    // Draw balls
+    for (const ball of balls[b]) {
+      if (ball.settled) continue;
+      const inBubble = b === 1 && isInBubble(ball.x, ball.y);
+      ctx.beginPath();
+      ctx.arc(ball.x, ball.y, 2, 0, Math.PI * 2);
+      ctx.fillStyle = inBubble ? 'rgba(255,160,80,0.9)' : 'rgba(255,255,255,0.7)';
+      ctx.fill();
+    }
+
+    // Draw histogram bins
+    const numBins = bins[b].length;
+    const binW = W / numBins;
+    const labelZoneTop = top + H * 0.5 - 22;
+    const boardBottom = labelZoneTop - binHeight;
+    const maxBin = Math.max(1, ...bins[b]);
+    const maxBarH = binHeight - 4;
+
+    // Histogram bars — above the label zone
+    for (let i = 0; i < numBins; i++) {
+      if (bins[b][i] === 0) continue;
+      const barH = (bins[b][i] / maxBin) * maxBarH;
+      const x = i * binW + 1;
+
+      // Color: normal = cool white/blue, filtered = warm orange shift
+      let r, g, bb;
+      if (b === 0) {
+        r = 180; g = 200; bb = 255;
+      } else {
+        const t = bins[b][i] / maxBin;
+        r = 180 + t * 75; g = 160 - t * 40; bb = 100 - t * 60;
+      }
+      ctx.fillStyle = `rgba(${r},${g},${bb},0.6)`;
+      ctx.fillRect(x, boardBottom + binHeight - barH, binW - 2, barH);
+    }
+
+    // "INFORMATION" label — below the bars
+    ctx.font = '13px "IBM Plex Mono", monospace';
+    ctx.fillStyle = 'rgba(255,255,255,0.7)';
+    ctx.textAlign = 'center';
+    ctx.fillText('INFORMATION', W * 0.5, top + H * 0.5 - 6);
+    ctx.textAlign = 'left';
+    ctx.fillStyle = 'rgba(255,255,255,0.4)';
+    ctx.fillText('NEGATIVE', 12, top + H * 0.5 - 6);
+    ctx.textAlign = 'right';
+    ctx.fillText('POSITIVE', W - 12, top + H * 0.5 - 6);
+  }
+}
+
+function step() {
+  frameCount++;
+
+  // Spawn balls at configured rate
+  if (frameCount % 1 === 0) {
+    for (let i = 0; i < dropRate; i++) {
+      spawnBall(0);
+      spawnBall(1);
+    }
+  }
+
+  updateBalls();
+  render();
+  requestAnimationFrame(step);
+}
+
+// UI
+const biasSlider = document.getElementById('bias-slider');
+const biasDisplay = document.getElementById('bias-display');
+const rateSlider = document.getElementById('rate-slider');
+const rateDisplay = document.getElementById('rate-display');
+
+biasSlider.addEventListener('input', () => {
+  bias = parseFloat(biasSlider.value);
+  biasDisplay.textContent = bias.toFixed(2);
+});
+rateSlider.addEventListener('input', () => {
+  dropRate = parseInt(rateSlider.value);
+  rateDisplay.textContent = dropRate;
+});
+
+function start() {
+  initSim();
+  step();
+}
+
+window.addEventListener('resize', () => {
+  initSim();
+});
+start();
+</script>
+
+</body>
+</html>
