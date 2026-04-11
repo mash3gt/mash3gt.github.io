@@ -42,4 +42,4 @@ Built with vanilla HTML/CSS/JavaScript, no build tools. Deployed via GitHub Page
 
 - Format: `00N — Title` (e.g., "001 — Flow around a Guitar")
 - File: `00N.html`
-- Screenshot: `images/00N — Title.png`
+- Screenshot: `images/00N.png`
