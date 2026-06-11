@@ -4,6 +4,9 @@ on:
   pull_request:
     branches:
       - main
+  push:
+    branches:
+      - main
 
 permissions:
   contents: read
@@ -21,7 +24,7 @@ jobs:
           node-version: '20'
 
       - name: Run HTML validation
-        run: npx html-validate index.html
+        run: npx html-validate *.html
 
   check-links:
     name: External Link Check
@@ -32,5 +35,5 @@ jobs:
       - name: Check external links with lychee
         uses: lycheeverse/lychee-action@v2.8.0
         with:
-          args: --no-progress index.html
+          args: --no-progress './*.html'
           fail: true
