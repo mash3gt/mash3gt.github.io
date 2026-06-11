@@ -16,10 +16,10 @@ jobs:
     name: HTML Validation
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: '20'
 
@@ -30,10 +30,11 @@ jobs:
     name: External Link Check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Check external links with lychee
         uses: lycheeverse/lychee-action@v2.8.0
         with:
-          args: --no-progress './*.html'
+          # 429 = rate-limited by the target site (e.g. Instagram), not a dead link
+          args: --no-progress --accept '100..=103,200..=299,429' './*.html'
           fail: true
