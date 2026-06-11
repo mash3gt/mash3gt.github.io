@@ -352,7 +352,11 @@ powerSlider.addEventListener('input', () => {
 });
 
 const totalWarmUp = 10000;
-function warmUp(remaining) {
+let warmingUp = true;
+let warmUpGen = 0;
+
+function warmUp(remaining, gen) {
+  if (gen !== warmUpGen) return;
   const batch = 100;
   const count = Math.min(batch, remaining);
   for (let i = 0; i < count; i++) solve();
@@ -361,20 +365,41 @@ function warmUp(remaining) {
   document.getElementById('loading-progress').textContent = done + ' / ' + totalWarmUp + ' steps';
   document.getElementById('loading-bar').style.width = (done / totalWarmUp * 100) + '%';
   if (remaining > 0) {
-    setTimeout(() => warmUp(remaining), 0);
+    setTimeout(() => warmUp(remaining, gen), 0);
   } else {
+    warmingUp = false;
     render();
     document.getElementById('loading').classList.add('fade-out');
   }
 }
 
-async function start() {
-  initSim();
-  await loadSourceFromImage();
-  warmUp(10000);
+function step() {
+  if (!warmingUp) {
+    for (let i = 0; i < 30; i++) solve();
+    render();
+  }
+  requestAnimationFrame(step);
 }
 
-window.addEventListener('resize', initSim);
+async function restart() {
+  warmUpGen++;
+  warmingUp = true;
+  document.getElementById('loading').classList.remove('fade-out');
+  initSim();
+  await loadSourceFromImage();
+  warmUp(totalWarmUp, warmUpGen);
+}
+
+async function start() {
+  await restart();
+  requestAnimationFrame(step);
+}
+
+let resizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(restart, 200);
+});
 start();
 </script>
 
