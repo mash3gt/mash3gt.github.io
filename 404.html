@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 — mash3gt</title>
+<meta name="description" content="This work is not in the collection — mash3gt.">
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="/fonts/fonts.css">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:#d5d0cb url("/images/freddie-MGFzzAAAWlw-unsplash.jpg") center/cover fixed;color:#2a2a2a;font-family:'Outfit','Noto Sans JP',sans-serif;font-weight:300;line-height:1.7;min-height:100vh;display:flex;flex-direction:column;}
+
+  /* Nav — shared with concept/about */
+  .nav{position:fixed;top:0;left:0;right:0;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;z-index:100;background:rgba(255,255,255,0.8);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,0.06);}
+  .logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+  .logo-text{font-family:'Outfit',sans-serif;font-weight:600;font-size:15px;letter-spacing:3px;color:#2a2a2a;}
+  .logo-text span{color:rgba(0,0,0,0.35);}
+  .nav-links{display:flex;align-items:center;gap:12px;}
+  .nav-link{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(0,0,0,0.4);text-decoration:none;padding:4px 8px;border:1px solid rgba(0,0,0,0.08);border-radius:4px;transition:all 0.2s;}
+  .nav-link:hover{color:#2a2a2a;border-color:rgba(0,0,0,0.25);}
+
+  /* Empty wall with a lone caption card */
+  .gallery{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:72px 28px 28px;}
+  .empty-frame{width:60%;max-width:520px;aspect-ratio:4/3;border:1px dashed rgba(0,0,0,0.18);display:flex;align-items:center;justify-content:center;}
+  .empty-label{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:4px;color:rgba(0,0,0,0.25);text-transform:uppercase;}
+  .caption{max-width:400px;background:rgba(255,255,255,0.92);padding:20px 24px;border-radius:2px;box-shadow:0 1px 8px rgba(0,0,0,0.08);margin-top:20px;}
+  .caption-title{font-family:'Outfit',sans-serif;font-size:15px;font-weight:600;color:#2a2a2a;letter-spacing:1px;margin-bottom:6px;}
+  .caption-technique{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:1px;color:rgba(0,0,0,0.35);margin-bottom:12px;}
+  .caption-statement{font-size:12px;font-style:italic;color:#2a2a2a;line-height:1.7;margin-bottom:6px;}
+  .caption-statement-ja{font-size:12px;font-style:italic;color:#2a2a2a;line-height:1.8;margin-bottom:14px;}
+  .back-link{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(0,0,0,0.5);text-decoration:none;padding:6px 14px;border:1px solid rgba(0,0,0,0.12);border-radius:6px;transition:all 0.2s;}
+  .back-link:hover{color:#2a2a2a;border-color:rgba(0,0,0,0.3);}
+
+  /* Footer — shared */
+  .footer{padding:20px 48px;text-align:center;font-size:9px;color:rgba(0,0,0,0.25);letter-spacing:1px;}
+  .footer a{color:rgba(0,0,0,0.4);text-decoration:none;}
+  .footer a:hover{text-decoration:underline;}
+
+  @media(max-width:700px){
+    .nav{padding:0 12px;height:44px;}
+    .nav-link{font-size:7px;padding:3px 5px;letter-spacing:1px;}
+    .gallery{padding:60px 16px 16px;}
+    .empty-frame{width:100%;}
+    .footer{padding:16px 24px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <a href="/index.html" class="logo">
+    <div class="logo-text">MASH3<span>GT</span></div>
+  </a>
+  <div class="nav-links">
+    <a href="/index.html" class="nav-link">Gallery</a>
+    <a href="/concept.html" class="nav-link">Concept</a>
+    <a href="/about.html" class="nav-link">About</a>
+  </div>
+</div>
+
+<div class="gallery">
+  <div class="empty-frame">
+    <div class="empty-label">No Artwork on This Wall</div>
+  </div>
+  <div class="caption">
+    <div class="caption-title">404 — Not in the Collection</div>
+    <div class="caption-technique">HTTP Status Code / GitHub Pages</div>
+    <div class="caption-statement">The work you are looking for is not exhibited here.<br>Perhaps it was never made — or not yet.</div>
+    <div class="caption-statement-ja">お探しの作品は、この美術館には展示されていません。<br>まだ作られていないだけ、かもしれませんが。</div>
+    <a href="/index.html" class="back-link">← Back to Gallery</a>
+  </div>
+</div>
+
+<footer class="footer">
+  Contact → <a href="https://x.com/mash3gt" target="_blank" rel="noopener noreferrer">X @mash3gt</a> · © 2023–2026 mash3gt. All rights reserved.
+</footer>
+
+</body>
+</html>
