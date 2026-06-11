@@ -487,15 +487,21 @@ document.querySelectorAll('.viz-btn').forEach(btn => {
   });
 });
 
+let warmingUp = true;
+let warmUpGen = 0;
+
 function step() {
-  for (let i = 0; i < 8; i++) collideAndStream();
-  render();
-  updateRe();
+  if (!warmingUp) {
+    for (let i = 0; i < 8; i++) collideAndStream();
+    render();
+    updateRe();
+  }
   requestAnimationFrame(step);
 }
 
 const totalWarmUp = 400;
-function warmUp(remaining) {
+function warmUp(remaining, gen) {
+  if (gen !== warmUpGen) return;
   const batch = 50;
   const count = Math.min(batch, remaining);
   for (let i = 0; i < count; i++) collideAndStream();
@@ -504,20 +510,32 @@ function warmUp(remaining) {
   document.getElementById('loading-progress').textContent = done + ' / ' + totalWarmUp + ' steps';
   document.getElementById('loading-bar').style.width = (done / totalWarmUp * 100) + '%';
   if (remaining > 0) {
-    setTimeout(() => warmUp(remaining), 0);
+    setTimeout(() => warmUp(remaining, gen), 0);
   } else {
+    warmingUp = false;
     render();
     document.getElementById('loading').classList.add('fade-out');
-    step();
   }
 }
 
-function start() {
+function restart() {
+  warmUpGen++;
+  warmingUp = true;
+  document.getElementById('loading').classList.remove('fade-out');
   initSim();
-  warmUp(400);
+  warmUp(totalWarmUp, warmUpGen);
 }
 
-window.addEventListener('resize', initSim);
+function start() {
+  restart();
+  requestAnimationFrame(step);
+}
+
+let resizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(restart, 200);
+});
 start();
 </script>
 
