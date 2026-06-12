@@ -13,20 +13,23 @@ Built with vanilla HTML/CSS/JavaScript, no build tools. Deployed via GitHub Page
 - `003.html` — The Unseen Filter (Galton Board)
 - `concept.html` — Bilingual (EN/JA) concept statement
 - `about.html` — English only profile
+- `404.html` — Not-found page styled as an empty museum wall (absolute paths — served at any depth)
 - `images/` — Screenshots, source images, background texture
+- `fonts/` — Self-hosted woff2 fonts + `fonts.css` (generated from Google Fonts, do not edit by hand)
 
 ## Design Rules
 
 - **Aesthetic**: Tadao Ando-inspired concrete modernism. Concrete wall background, minimal UI.
 - **Layout**: Each work is displayed as "artwork on a concrete wall" — 60% width framed canvas with white caption card below.
-- **Fonts**: Outfit (headings), IBM Plex Mono (labels/technical), Noto Sans JP (Japanese).
+- **Fonts**: Outfit (headings), IBM Plex Mono (labels/technical), Noto Sans JP (Japanese). Self-hosted via `fonts/fonts.css` — no Google Fonts requests.
 - **Nav/Footer**: Shared across all pages — Gallery / Concept / About links, frosted glass nav bar.
 - **Caption card**: White background, title + technique + EN statement + JA statement.
 - **Colors**: Dark canvas (#0a0a0a), concrete background, muted UI elements.
 
 ## Coding Conventions
 
-- Single HTML file per work (inline CSS + JS, no external dependencies except Google Fonts).
+- Single HTML file per work (inline CSS + JS, no external dependencies; fonts self-hosted in `fonts/`).
+- Every page carries OGP + Twitter Card metadata (work pages use their screenshot as a large-image card).
 - Canvas-based simulations with `devicePixelRatio` scaling.
 - `simScale` variable to control simulation resolution.
 - Loading overlay with progress bar for heavy computations (chunked setTimeout to avoid blocking UI).
