@@ -35,6 +35,7 @@ jobs:
       - name: Check external links with lychee
         uses: lycheeverse/lychee-action@8646ba30535128ac92d33dfc9133794bfdd9b411 # v2.8.0
         with:
-          # 429 = rate-limited by the target site (e.g. Instagram), not a dead link
-          args: --no-progress --accept '100..=103,200..=299,429' './*.html'
+          # 403/429 = bot-blocking / rate-limiting by SNS sites (X, Instagram), not dead links
+          # --root-dir resolves root-relative paths used by 404.html
+          args: --no-progress --accept '100..=103,200..=299,403,429' --root-dir ${{ github.workspace }} './*.html'
           fail: true
