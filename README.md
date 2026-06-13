@@ -2,13 +2,15 @@
 
 ## About
 
-Physics and engineering simulations presented as art — a personal museum built with code.
+Personal profile hub — who I am and where my work lives (X, YouTube, note, GitHub).
+The interactive simulation museum that previously occupied the top page is kept
+unlisted, pending reorganization.
 
 ## Public URL
 
 - https://mash3gt.github.io/
 
-## Works
+## Works (unlisted)
 
 | # | Title | Technique |
 |---|-------|-----------|
