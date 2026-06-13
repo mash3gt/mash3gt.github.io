@@ -9,11 +9,12 @@ Built with vanilla HTML/CSS/JavaScript, no build tools. Deployed via GitHub Page
 
 The site operates as a **profile hub**: the top page is the owner's profile with
 links to external activity (X, YouTube, note, GitHub, AtCoder, Kaggle). The museum
-gallery and works are kept but **unlisted** (no inbound links from public pages;
-reachable by direct URL) pending a future reorganization.
+gallery, concept, and works are kept but **unlisted** (no inbound links from public
+pages; reachable by direct URL) pending a future reorganization. The only public
+page is the hub itself.
 
 - `index.html` — Profile hub (hero + responsibilities + background + external links)
-- `concept.html` — Bilingual (EN/JA) concept statement (linked from nav)
+- `concept.html` — Bilingual (EN/JA) concept statement (**unlisted**)
 - `gallery.html` — Museum gallery index (**unlisted**)
 - `001.html` — Flow around a Guitar (LBM fluid simulation, **unlisted**)
 - `002.html` — From the Radiant to the Reserved (heat equation, **unlisted**)
@@ -28,7 +29,7 @@ reachable by direct URL) pending a future reorganization.
 - **Aesthetic**: Tadao Ando-inspired concrete modernism. Concrete wall background, minimal UI.
 - **Layout**: Each work is displayed as "artwork on a concrete wall" — 60% width framed canvas with white caption card below.
 - **Fonts**: Outfit (headings), IBM Plex Mono (labels/technical), Noto Sans JP (Japanese). Self-hosted via `fonts/fonts.css` — no Google Fonts requests.
-- **Nav/Footer**: Shared across all pages — frosted glass nav bar. Public pages link Concept only; unlisted museum pages keep Gallery / Concept / About links.
+- **Nav/Footer**: Shared across all pages — frosted glass nav bar. The public hub has no nav links (logo only); unlisted museum pages keep Gallery / Concept / About links.
 - **Caption card**: White background, title + technique + EN statement + JA statement.
 - **Colors**: Dark canvas (#0a0a0a), concrete background, muted UI elements.
 
