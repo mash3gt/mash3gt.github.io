@@ -3,14 +3,15 @@
 ## About
 
 Personal profile hub — who I am and where my work lives (X, YouTube, note, GitHub).
-The interactive simulation museum that previously occupied the top page is kept
-unlisted, pending reorganization.
+The interactive simulation museum is reachable again via the Gallery link in the
+hub nav; the bilingual concept statement stays unlisted, pending reorganization.
 
-## Public URL
+## Public URLs
 
-- https://mash3gt.github.io/
+- https://mash3gt.github.io/ — profile hub
+- https://mash3gt.github.io/gallery.html — museum gallery
 
-## Works (unlisted)
+## Works
 
 | # | Title | Technique |
 |---|-------|-----------|
